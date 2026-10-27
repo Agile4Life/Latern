@@ -22,22 +22,22 @@ export type TutorialStepDef = {
 
 export const TUTORIAL_STEPS: readonly TutorialStepDef[] = [
   {
-    id: 'sprint', title: 'SPRINT', goal: 1.2,
-    action: 'Hold {key} while moving',
-    tip: 'Sprint to cross big rooms fast. Attacking or dashing ends it.',
-    keys: { keyboard: 'SHIFT', gamepad: 'L3', touch: 'Push the stick to the edge' },
+    id: 'sprint', title: 'CHẠY NƯỚC RÚT', goal: 1.2,
+    action: 'Giữ {key} khi đang di chuyển',
+    tip: 'Chạy nước rút để băng qua phòng lớn thật nhanh. Tấn công hoặc lướt sẽ dừng chạy.',
+    keys: { keyboard: 'SHIFT', gamepad: 'L3', touch: 'Đẩy cần điều khiển sát mép' },
   },
   {
-    id: 'jump', title: 'JUMP', goal: 2,
-    action: 'Press {key} to jump',
-    tip: 'Jump over shockwaves and ground slams.',
-    keys: { keyboard: 'SPACE', gamepad: 'A', touch: 'the JUMP button' },
+    id: 'jump', title: 'NHẢY', goal: 2,
+    action: 'Nhấn {key} để nhảy',
+    tip: 'Nhảy qua sóng xung kích và các đòn dậm đất.',
+    keys: { keyboard: 'SPACE', gamepad: 'A', touch: 'nút NHẢY' },
   },
   {
-    id: 'dash', title: 'DASH', goal: 2,
-    action: 'Press {key} to dash',
-    tip: 'A dash makes you briefly untouchable. Dash through attacks.',
-    keys: { keyboard: 'C', gamepad: 'B', touch: 'the DASH button' },
+    id: 'dash', title: 'LƯỚT', goal: 2,
+    action: 'Nhấn {key} để lướt',
+    tip: 'Lướt giúp bạn bất khả xâm phạm trong chốc lát. Hãy lướt xuyên qua đòn tấn công.',
+    keys: { keyboard: 'C', gamepad: 'B', touch: 'nút LƯỚT' },
   },
 ]
 
@@ -112,8 +112,8 @@ export class Tutorial {
     const i = Math.min(this.index, TUTORIAL_STEPS.length - 1)
     const step = TUTORIAL_STEPS[i]
     const key = step.keys[method]
-    // Touch hints are phrases ("the JUMP button"), not key caps.
-    const action = method === 'touch' ? step.action.replace('Hold {key} while moving', '{key}').replace('Press {key}', 'Tap {key}') : step.action
+    // Touch hints are phrases ("nút NHẢY"), not key caps.
+    const action = method === 'touch' ? step.action.replace('Giữ {key} khi đang di chuyển', '{key}').replace('Nhấn {key}', 'Chạm {key}') : step.action
     return {
       index: i,
       total: TUTORIAL_STEPS.length,
