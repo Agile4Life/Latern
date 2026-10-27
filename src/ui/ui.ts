@@ -66,7 +66,7 @@ const KEY_HINTS: Record<'attack' | 'bolt' | 'dash' | 'nova' | 'interact' | 'map'
   bolt: { keyboard: 'RMB', gamepad: 'RB' },
   dash: { keyboard: 'C', gamepad: 'B' },
   nova: { keyboard: 'Q', gamepad: 'LB' },
-  interact: { keyboard: 'E', gamepad: 'Y', touch: 'TAP' },
+  interact: { keyboard: 'E', gamepad: 'Y', touch: 'CHẠM' },
   map: { keyboard: 'TAB', gamepad: 'VIEW' },
 }
 
@@ -115,7 +115,7 @@ export class UI {
     this.vignette = el('div', 'vignette', '', root)
     this.mapOverlay = el('div', 'map-overlay hidden', '', root)
     const mapCard = el('div', 'map-card', '', this.mapOverlay)
-    el('h2', 'display', 'FLOOR MAP', mapCard)
+    el('h2', 'display', 'BẢN ĐỒ TẦNG', mapCard)
     this.mapCanvas = el('canvas', 'map-canvas', '', mapCard)
     const legend = el('div', 'legend', '', mapCard)
     for (const k of ['heal', 'shop', 'rescue', 'treasure', 'challenge', 'lore', 'elite', 'boss', 'exit'] as const) {
@@ -124,7 +124,7 @@ export class UI {
       dot.style.background = ROOM_ICON[k].color
       el('span', '', ROOM_ICON[k].label, row)
     }
-    el('p', 'map-hint', 'Dashed rooms are discovered but unexplored. Press TAB or M to close.', mapCard)
+    el('p', 'map-hint', 'Phòng viền nét đứt đã phát hiện nhưng chưa khám phá. Nhấn TAB hoặc M để đóng.', mapCard)
     this.modalRoot = el('div', 'modal-root hidden', '', root)
     this.curtainEl = el('div', 'curtain', '', root)
     const cc = el('div', 'curtain-card', '', this.curtainEl)
@@ -158,24 +158,24 @@ export class UI {
     const t = el('div', 'title-screen hidden', '', this.root)
     // Poster of the campus from the title camera; crossfades into the live scene (titleLive).
     if (!new URLSearchParams(location.search).has('noposter')) el('div', 'title-poster', '', t)
-    this.refs.titleLoading = el('div', 'title-loading', 'Warming up the campus...', t)
+    this.refs.titleLoading = el('div', 'title-loading', 'Đang khởi tạo khuôn viên học viện...', t)
     const logo = el('div', 'logo', '', t)
-    el('div', 'logo-kicker', 'SUPER', logo)
-    el('div', 'logo-main display', 'DUNGEON', logo)
-    el('div', 'logo-sub', 'After curfew at Super Academy, the superhero high school', logo)
+    el('div', 'logo-kicker', 'THÁP NGỤC', logo)
+    el('div', 'logo-main display', 'VÔ TẬN', logo)
+    el('div', 'logo-sub', 'Học Viện Siêu Anh Hùng • Hầm Ngục Phong Ấn', logo)
     const menu = el('div', 'title-menu', '', t)
-    button('START PATROL', 'primary big', () => this.onPlay(), menu)
-    button('HOW TO PLAY', '', () => this.onTitleHowTo(), menu)
-    button('SETTINGS', '', () => this.onTitleSettings(), menu)
+    this.refs.playBtn = button('Bắt Đầu Tuần Tra', 'primary big', () => this.onPlay(), menu)
+    button('Hướng Dẫn', '', () => this.onTitleHowTo(), menu)
+    button('Cài Đặt', '', () => this.onTitleSettings(), menu)
     this.refs.titleStats = el('div', 'title-stats', '', t)
-    el('div', 'title-foot', 'Best with keyboard + mouse. Gamepad and touch supported.', t)
+    el('div', 'title-foot', 'Tốt nhất với bàn phím + chuột. Hỗ trợ tay cầm và màn hình cảm ứng.', t)
     return t
   }
 
   /** Full-screen scene-transition curtain. Resolves once fully opaque (or immediately when lifting). */
-  curtain(on: boolean, text = ''): Promise<void> {
+  curtain(on: boolean, text = 'Đang tải...'): Promise<void> {
     if (on) {
-      this.curtainText.textContent = text
+      this.curtainText.textContent = text || 'Đang tải...'
       this.curtainBar.style.width = '0%'
     }
     const el = this.curtainEl
@@ -208,9 +208,13 @@ export class UI {
   showTitle(show: boolean, save?: SaveData): void {
     this.title.classList.toggle('hidden', !show)
     if (show && save) {
+      if (this.refs.playBtn) {
+        this.refs.playBtn.textContent = save.runs ? 'Tiếp Tục Tuần Tra' : 'Bắt Đầu Tuần Tra'
+      }
+      const bestRank = save.wins ? 'S' : save.runs ? 'A' : '-'
       this.refs.titleStats.textContent = save.runs
-        ? `Runs ${save.runs}  |  Exams passed ${save.wins}  |  Classmates rescued ${save.rescued.length}/${CLASSMATES.length}  |  Merits ${save.merits}`
-        : 'Curfew was an hour ago. Something under the school just woke up.'
+        ? `Lượt chạy: ${save.runs}  |  Thắng: ${save.wins}  |  Hạng cao nhất: ${bestRank}  |  Bạn học đã cứu: ${save.rescued.length}/${CLASSMATES.length}  |  Trang sử ký: ${save.lore.length}/${LORE.length}`
+        : 'Đã qua giờ giới nghiêm một tiếng. Thứ gì đó bên dưới học viện vừa thức giấc.'
     }
   }
 
@@ -234,7 +238,7 @@ export class UI {
     const cur = el('div', 'currency', '', tl)
     this.refs.credits = el('span', 'chip credits', '', cur)
     this.refs.merits = el('span', 'chip merits', '', cur)
-    this.refs.shield = el('span', 'chip shield', 'BARRIER', cur)
+    this.refs.shield = el('span', 'chip shield', 'LÁ CHẮN', cur)
     this.refs.clock = el('span', 'chip clock', '', cur)
 
     const top = el('div', 'hud-top', '', hud)
@@ -259,15 +263,15 @@ export class UI {
       el('div', 'slot-name', name, s)
       this.refs[`${id}Slot`] = s
     }
-    slot('attack', 'Combo', 'fist')
-    slot('bolt', 'Bolt', 'bolt')
-    slot('dash', 'Dash', 'dash')
-    slot('nova', 'Nova', 'star')
+    slot('attack', 'Đòn Đánh', 'fist')
+    slot('bolt', 'Tia Chớp', 'bolt')
+    slot('dash', 'Lướt', 'dash')
+    slot('nova', 'Tân Tinh', 'star')
 
     this.refs.prompt = el('div', 'prompt hidden', '', hud)
     this.refs.coach = el('div', 'coach hidden', '', hud)
     el('div', 'crosshair', '', hud)
-    this.refs.capture = el('div', 'capture hidden', 'Click to capture the mouse', hud)
+    this.refs.capture = el('div', 'capture hidden', 'Nhấp chuột để khóa tâm ngắm', hud)
     const boss = el('div', 'bossbar hidden', '', hud)
     const bh = el('div', 'boss-head', '', boss)
     this.refs.bossName = el('span', 'display', '', bh)
@@ -311,14 +315,14 @@ export class UI {
     this.style('hp', r.hpFill, 'width', `${hpPct.toFixed(1)}%`)
     this.style('hpg', r.hpGhost, 'width', `${hpPct.toFixed(1)}%`)
     this.toggle('hpLow', r.hpFill.parentElement!, 'low', hpPct < 30)
-    this.set('hpT', r.hpText, `${Math.ceil(d.hp)} / ${d.maxHp}`)
+    this.set('hpT', r.hpText, `MÁU ${Math.ceil(d.hp)} / ${d.maxHp}`)
     this.style('pw', r.pwFill, 'width', `${((d.power / d.maxPower) * 100).toFixed(1)}%`)
     this.style('pwm', r.pwMark, 'left', `${(d.novaCost / d.maxPower) * 100}%`)
     this.toggle('pwNova', r.pwFill.parentElement!, 'nova-ready', d.power >= d.novaCost)
-    this.set('pwT', r.pwText, `POWER ${Math.floor(d.power)}`)
-    this.set('cr', r.credits, `${d.credits} CR`)
+    this.set('pwT', r.pwText, d.power >= d.novaCost ? `NĂNG LƯỢNG ${Math.floor(d.power)} • SIÊU TÂN TINH SẴN SÀNG` : `NĂNG LƯỢNG ${Math.floor(d.power)}`)
+    this.set('cr', r.credits, `${d.credits} TÍN DỤNG`)
     this.toggle('crH', r.credits, 'hidden', !d.inRun)
-    this.set('me', r.merits, `${d.merits} MERITS`)
+    this.set('me', r.merits, `${d.merits} CHIẾN CÔNG`)
     this.toggle('meH', r.merits, 'hidden', d.inRun)
     this.toggle('shH', r.shield, 'hidden', d.shield < 0)
     this.toggle('shR', r.shield, 'ready', d.shield >= 1)
@@ -326,7 +330,7 @@ export class UI {
     this.toggle('clkH', r.clock, 'hidden', !d.inRun)
     this.set('wing', r.wing, d.wing)
     this.set('room', r.room, d.roomLabel)
-    this.set('fight', r.fight, d.enemiesLeft ? `${d.wave ? `${d.wave}  |  ` : ''}${d.enemiesLeft} ${d.enemiesLeft === 1 ? 'enemy' : 'enemies'} left` : '')
+    this.set('fight', r.fight, d.enemiesLeft ? `${d.wave ? `${d.wave}  |  ` : ''}Còn ${d.enemiesLeft} kẻ địch` : '')
     this.toggle('fightH', r.fight, 'hidden', !d.enemiesLeft)
     // Critical path pips.
     const pk = d.progress ? `${d.progress.at}/${d.progress.total}/${d.progress.boss}` : ''
@@ -367,7 +371,7 @@ export class UI {
     this.toggle('novaRdy', r.novaSlot, 'ready', d.power >= d.novaCost)
     this.style('dashCd', r.dashCd, '--p', `${Math.round((1 - d.dash) * 100)}`)
     this.toggle('dashCdOn', r.dashSlot, 'cooling', d.dash < 1)
-    this.set('mapK', r.mapHint, d.inRun ? `${KEY_HINTS.map[m] ?? 'MAP'}  Full map` : '')
+    this.set('mapK', r.mapHint, d.inRun ? `${KEY_HINTS.map[m] ?? 'MAP'}  Bản đồ tầng` : '')
     this.toggle('trH', r.minimap.parentElement!, 'hidden', !d.inRun)
     // Prompt.
     if (d.prompt) {
@@ -397,7 +401,7 @@ export class UI {
     bar.classList.remove('shake')
     void bar.offsetWidth
     bar.classList.add('shake')
-    this.toast('Not enough Power: land melee hits to charge up')
+    this.toast('Không đủ Năng Lượng: hãy đánh cận chiến để tích nạp')
   }
 
   hurt(intensity: number): void {
@@ -419,14 +423,14 @@ export class UI {
     const esc = (t: string) => t.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]!)
     const key = method === 'touch' ? `<b>${esc(v.key)}</b>` : `<kbd>${esc(v.key)}</kbd>`
     const action = esc(v.action).replace('{key}', key)
-    const skip = method === 'touch' ? 'Pause (II)' : method === 'gamepad' ? 'Pause (MENU)' : 'Pause (ESC)'
+    const skip = method === 'touch' ? 'Tạm dừng (II)' : method === 'gamepad' ? 'Tạm dừng (MENU)' : 'Tạm dừng (ESC)'
     const pips = Array.from({ length: v.total }, (_, i) => `<i class="${i < v.index || (i === v.index && v.celebrating) ? 'done' : i === v.index ? 'now' : ''}"></i>`).join('')
-    const html = `<div class="coach-head"><span>${v.celebrating ? 'NICE!' : `MOVE TRAINING ${v.index + 1}/${v.total}`}</span><span class="coach-pips">${pips}</span></div>`
+    const html = `<div class="coach-head"><span>${v.celebrating ? 'TUYỆT VỜI!' : `TẬP LUYỆN DI CHUYỂN ${v.index + 1}/${v.total}`}</span><span class="coach-pips">${pips}</span></div>`
       + `<div class="coach-title display">${v.step.title}</div>`
       + `<div class="coach-action">${action}</div>`
       + `<div class="coach-bar"><i style="width:${Math.round(v.progress * 100)}%"></i></div>`
       + `<div class="coach-tip">${esc(v.step.tip)}</div>`
-      + `<div class="coach-skip">${skip} to skip</div>`
+      + `<div class="coach-skip">${skip} để bỏ qua</div>`
     if (this.cache.get('coach') !== html) {
       this.cache.set('coach', html)
       r.coach.innerHTML = html
@@ -494,7 +498,7 @@ export class UI {
     return card
   }
 
-  private closeBtn(card: HTMLElement, label = 'CLOSE'): void {
+  private closeBtn(card: HTMLElement, label = 'ĐÓNG'): void {
     if (!this.modalClose) return
     const f = this.modalClose
     const foot = el('div', 'modal-foot', '', card)
@@ -503,9 +507,9 @@ export class UI {
 
   openIntro(onDone: () => void): void {
     const panels = [
-      { k: '11:58 PM', t: 'Super Academy. The finest hero school in the world. Curfew was an hour ago, and you were definitely not sneaking back from the training gym.' },
-      { k: '11:59 PM', t: 'The floor shudders. Deep under the Hall of Origins, the seal on the Underhall - a vault from another dimension - cracks open. Classrooms fold into the dark.' },
-      { k: '12:00 AM', t: 'Six classmates are missing. The staff are frozen in time. The only hero awake is you. Descend, fight, rescue, and find out who opened the vault.' },
+      { k: '23:58', t: 'Học Viện Siêu Anh Hùng — ngôi trường đào tạo anh hùng danh giá nhất thế giới. Đã qua giờ giới nghiêm một tiếng, và bạn chắc chắn không hề lén lút trốn về từ phòng tập.' },
+      { k: '23:59', t: 'Mặt đất rung chuyển. Sâu bên dưới Sảnh Khởi Nguồn, phong ấn của Tháp Ngục Vô Tận — hầm ngục từ chiều không gian khác — nứt vỡ. Các phòng học bị nuốt chửng vào bóng tối.' },
+      { k: '00:00', t: 'Sáu bạn học đã mất tích. Các giảng viên bị đóng băng trong thời gian. Người hùng duy nhất còn thức là bạn. Hãy tiến xuống, chiến đấu, giải cứu bạn bè và tìm ra kẻ đã mở cổng hầm ngục.' },
     ]
     let i = 0
     const render = () => {
@@ -522,7 +526,7 @@ export class UI {
       el('p', 'panel-text', p.t, panel)
       const foot = el('div', 'modal-foot', '', card)
       el('span', 'panel-count', `${i + 1} / ${panels.length}`, foot)
-      button(i < panels.length - 1 ? 'NEXT' : "LET'S GO!", 'primary', next, foot)
+      button(i < panels.length - 1 ? 'TIẾP THEO' : 'XUẤT PHÁT!', 'primary', next, foot)
     }
     const next = () => {
       this.sound()
@@ -537,51 +541,51 @@ export class UI {
 
   openHowTo(onClose: () => void, _save?: SaveData): void {
     const card = this.modal('howto', onClose)
-    el('h2', 'display', 'HERO HANDBOOK', card)
+    el('h2', 'display', 'HƯỚNG DẪN CHIẾN ĐẤU', card)
     const grid = el('div', 'howto-grid', '', card)
     const controls = el('div', 'howto-col', '', grid)
-    el('h3', '', 'Controls', controls)
+    el('h3', '', 'Điều khiển', controls)
     const rows: [string, string, string][] = [
-      ['Move', 'WASD', 'Left stick'],
-      ['Look / aim', 'Mouse', 'Right stick'],
-      ['Combo strike (x3)', 'Left click / J', 'X / RT'],
-      ['Power Bolt (hold)', 'Right click / K', 'RB / LT'],
-      ['Sprint (hold)', 'Shift', 'L3'],
-      ['Jump (clears ground attacks)', 'Space', 'A'],
-      ['Dash (invulnerable)', 'C', 'B'],
-      ['Super Nova (60 Power)', 'Q', 'LB'],
-      ['Interact', 'E / F', 'Y'],
-      ['Floor map', 'Tab / M', 'View'],
-      ['Pause', 'Esc / P', 'Start'],
+      ['Di chuyển', 'WASD', 'Cần trái'],
+      ['Nhìn / ngắm', 'Mouse', 'Cần phải'],
+      ['Đòn đánh liên hoàn (x3)', 'LMB / J', 'X / RT'],
+      ['Tia Chớp Năng Lượng (giữ)', 'RMB / K', 'RB / LT'],
+      ['Chạy nước rút (giữ)', 'Shift', 'L3'],
+      ['Nhảy (né đòn dưới đất)', 'Space', 'A'],
+      ['Lướt (bất tử tạm thời)', 'C', 'B'],
+      ['Siêu Tân Tinh (60 Năng Lượng)', 'Q', 'LB'],
+      ['Tương tác', 'E / F', 'Y'],
+      ['Bản đồ tầng', 'Tab / M', 'View'],
+      ['Tạm dừng', 'Esc / P', 'Start'],
     ]
     const table = el('table', 'controls', '', controls)
     const head = el('tr', '', '', table)
-    for (const h of ['', 'Keyboard + mouse', 'Gamepad']) el('th', '', h, head)
+    for (const h of ['', 'Bàn phím + Chuột', 'Tay cầm']) el('th', '', h, head)
     for (const r of rows) {
       const tr = el('tr', '', '', table)
       el('td', '', r[0], tr)
       el('td', '', r[1], tr)
       el('td', '', r[2], tr)
     }
-    el('p', 'small', 'Touch: left thumb moves, drag the right side to look, and use the on-screen buttons.', controls)
+    el('p', 'small', 'Cảm ứng: ngón cái bên trái để di chuyển, kéo bên phải để xoay góc nhìn và dùng các nút trên màn hình.', controls)
     const tips = el('div', 'howto-col', '', grid)
-    el('h3', '', 'How a run works', tips)
+    el('h3', '', 'Quy tắc tuần tra', tips)
     const list = el('ul', 'tips', '', tips)
     for (const t of [
-      'Step through the Vault Portal to descend. Every floor is generated from a seed you can replay.',
-      'Doors lock when you enter a combat room. Clear every wave to open them and claim the reward.',
-      'Red zones are telegraphs: an attack lands there when the fill completes. Dash through or step out.',
-      'Melee hits charge Power. Spend it on Power Bolts or a room-clearing Super Nova that also erases bullets.',
-      'Power cards offer 3 upgrades: build around melee, bolts, dashes or Nova.',
-      'Side branches hold shops, fountains, lore, relics and trapped classmates. The minimap shows icons.',
-      'Beat The Proctor to open the way down to The Stacks Below, then defeat The Librarian and take the portal home. Win or lose, you earn Merits for permanent upgrades on campus.',
+      'Bước qua Cổng Tháp Ngục để tiến xuống. Mỗi tầng được tạo từ một mã Seed mà bạn có thể chơi lại.',
+      'Cửa sẽ khóa khi bạn bước vào phòng chiến đấu. Quét sạch mọi đợt quái để mở cửa và nhận phần thưởng.',
+      'Vùng đỏ là cảnh báo đòn đánh: sát thương sẽ giáng xuống khi vùng đỏ đầy. Hãy Lướt qua hoặc bước ra ngoài.',
+      'Đánh cận chiến giúp tích Năng Lượng. Dùng Năng Lượng để bắn Tia Chớp hoặc tung Siêu Tân Tinh quét sạch phòng và xóa đạn địch.',
+      'Thẻ Năng Lực cho phép chọn 1 trong 3 nâng cấp: xây dựng lối chơi xoay quanh cận chiến, tia chớp, lướt hoặc Tân Tinh.',
+      'Các nhánh phụ có cửa hàng tiếp tế, đài phun hồi máu, sử ký, di vật và bạn học bị giam giữ. Bản đồ nhỏ hiển thị đầy đủ ký hiệu.',
+      'Đánh bại Giám Thị để mở đường xuống Thư Khố Sâu Thẳm, sau đó hạ gục Thủ Thư và qua cổng dịch chuyển về trường. Dù thắng hay bại, bạn đều nhận Chiến Công để nâng cấp vĩnh viễn tại học viện.',
     ]) el('li', '', t, list)
-    this.closeBtn(card, 'GOT IT')
+    this.closeBtn(card, 'ĐÃ HIỂU')
   }
 
   openSettings(save: SaveData, onChange: (patch: Partial<SaveData>) => void, back: () => void): void {
     const card = this.modal('settings', back)
-    el('h2', 'display', 'SETTINGS', card)
+    el('h2', 'display', 'CÀI ĐẶT', card)
     const form = el('div', 'settings', '', card)
     const slider = (label: string, key: 'musicVolume' | 'sfxVolume' | 'sensitivity', min: number, max: number, step: number) => {
       const row = el('label', 'set-row', '', form)
@@ -608,71 +612,72 @@ export class UI {
       input.checked = save[key]
       input.addEventListener('change', () => onChange({ [key]: input.checked }))
     }
-    slider('Music volume', 'musicVolume', 0, 1, 0.05)
-    slider('Effects volume', 'sfxVolume', 0, 1, 0.05)
-    toggle('Mute all audio', 'muted')
-    slider('Look sensitivity', 'sensitivity', 0.3, 2.5, 0.1)
-    toggle('Invert vertical look', 'invertY')
-    toggle('Reduced motion (less shake and flashes)', 'reducedMotion')
+    slider('Âm lượng nhạc nền', 'musicVolume', 0, 1, 0.05)
+    slider('Âm lượng hiệu ứng', 'sfxVolume', 0, 1, 0.05)
+    toggle('Tắt toàn bộ âm thanh', 'muted')
+    slider('Độ nhạy góc nhìn', 'sensitivity', 0.3, 2.5, 0.1)
+    toggle('Đảo ngược trục nhìn dọc (Y)', 'invertY')
+    toggle('Giảm chuyển động (bớt rung lắc và chớp sáng)', 'reducedMotion')
     const q = el('div', 'set-row', '', form)
-    el('span', '', 'Graphics quality', q)
+    el('span', '', 'Chất lượng đồ họa', q)
     const seg = el('div', 'segmented', '', q)
+    const qLabels: Record<Quality, string> = { low: 'Thấp', medium: 'Trung bình', high: 'Cao' }
     for (const v of ['low', 'medium', 'high'] as Quality[]) {
-      const b = button(v.toUpperCase(), save.quality === v ? 'on' : '', () => {
+      const b = button(qLabels[v], save.quality === v ? 'on' : '', () => {
         onChange({ quality: v })
         seg.querySelectorAll('button').forEach(x => x.classList.remove('on'))
         b.classList.add('on')
       }, seg)
     }
-    this.closeBtn(card, 'BACK')
+    this.closeBtn(card, 'QUAY LẠI')
   }
 
   openPause(info: PauseInfo, h: PauseHandlers): void {
     this.lastPause = { info, h }
     const card = this.modal('pause', h.resume)
-    el('h2', 'display', 'PAUSED', card)
+    el('h2', 'display', 'TẠM DỪNG', card)
     const cols = el('div', 'pause-grid', '', card)
     const menu = el('div', 'pause-menu', '', cols)
-    button('RESUME', 'primary', () => {
+    button('Tiếp tục', 'primary', () => {
       this.closeModal()
       h.resume()
     }, menu)
-    button('SETTINGS', '', () => {
+    button('Cài đặt', '', () => {
       this.closeModal()
       h.settings()
     }, menu)
-    button('HANDBOOK', '', () => this.openHowTo(() => this.openPause(info, h)), menu)
+    button('Hướng dẫn', '', () => this.openHowTo(() => this.openPause(info, h)), menu)
     // Replaying training is a hub-only side activity: it resumes play right here and never starts a run.
-    if (info.training === 'replay' && h.training) button('MOVEMENT TRAINING', '', () => {
+    if (info.training === 'replay' && h.training) button('Tập luyện di chuyển', '', () => {
       this.closeModal()
       h.training!()
     }, menu)
-    if (info.training === 'active' && h.skipTraining) button('SKIP TRAINING', 'ghost', () => {
+    if (info.training === 'active' && h.skipTraining) button('Bỏ qua tập luyện', 'ghost', () => {
       this.closeModal()
       h.skipTraining!()
     }, menu)
-    if (info.inRun) button('ABANDON RUN (half merits)', 'danger', h.abandon, menu)
-    button('QUIT TO TITLE', 'ghost', h.quit, menu)
+    if (info.inRun) button('Về Sảnh Khởi Nguồn (nhận 50% chiến công)', 'danger', h.abandon, menu)
+    button('Về Màn Hình Chính', 'ghost', h.quit, menu)
     const side = el('div', 'pause-info', '', cols)
     if (info.inRun) {
-      el('h3', '', 'This floor', side)
+      el('h3', '', 'Tầng hiện tại', side)
       const seedRow = el('div', 'seed-row', '', side)
       el('span', '', `${info.wing}  |  Seed `, seedRow)
       el('code', '', `${info.seed}`, seedRow)
-      button('COPY', 'mini', () => navigator.clipboard?.writeText(`${info.seed}`).then(() => this.toast('Seed copied'), () => undefined), seedRow)
-      el('p', 'small', `${info.rooms} rooms${info.fallback ? '  |  safe fallback layout' : ''}`, side)
+      button('SAO CHÉP', 'mini', () => navigator.clipboard?.writeText(`${info.seed}`).then(() => this.toast('Đã sao chép mã Seed'), () => undefined), seedRow)
+      el('p', 'small', `${info.rooms} phòng${info.fallback ? '  |  bố cục dự phòng an toàn' : ''}`, side)
       const det = el('details', 'report', '', side)
-      el('summary', '', 'Generation report', det)
+      el('summary', '', 'Báo cáo khởi tạo tầng', det)
       const ul = el('ul', '', '', det)
       for (const line of info.report) el('li', '', line, ul)
-      el('h3', '', 'Your build', side)
-      el('p', 'small', info.build.length ? info.build.join(', ') : 'No upgrades yet. Clear rooms to find power cards.', side)
-      if (info.relics.length) el('p', 'small relic-line', `Relics: ${info.relics.join(', ')}`, side)
+      el('h3', '', 'Bộ nâng cấp hiện tại', side)
+      el('p', 'small', info.build.length ? info.build.join(', ') : 'Chưa có nâng cấp nào. Hãy dọn phòng để nhận thẻ năng lực.', side)
+      if (info.relics.length) el('p', 'small relic-line', `Di vật: ${info.relics.join(', ')}`, side)
     } else {
-      el('h3', '', 'Hall of Origins', side)
-      el('p', 'small', 'You are safe on campus. Spend Merits at the Hero Development Board, check the Codex, then walk north into the Vault Portal.', side)
-      if (info.training === 'replay') el('p', 'small', 'Rusty? MOVEMENT TRAINING runs the sprint, jump and dash drills again right here. It never starts a run.', side)
-      if (info.training === 'active') el('p', 'small', 'Movement training is running. Skip it now and replay it any time from this menu.', side)
+      el('h3', '', 'Sảnh Khởi Nguồn', side)
+      el('p', 'small', 'Bạn đang an toàn trong khuôn viên học viện. Hãy dùng Chiến Công tại Bảng Phát Triển Anh Hùng, xem Sử Ký Tháp Ngục, rồi tiến về phía bắc vào Cổng Tháp Ngục.', side)
+      if (info.training === 'replay') el('p', 'small', 'Muốn làm nóng tay? Tập luyện di chuyển sẽ mở lại bài tập chạy nước rút, nhảy và lướt ngay tại sảnh mà không bắt đầu lượt chạy mới.', side)
+      if (info.training === 'active') el('p', 'small', 'Đang trong bài tập di chuyển. Bạn có thể bỏ qua ngay bây giờ và tập lại bất cứ lúc nào từ menu này.', side)
     }
   }
 
@@ -694,7 +699,7 @@ export class UI {
     el('div', 'dlg-sub', subtitle, card)
     el('p', 'dlg-text', text, card)
     const foot = el('div', 'modal-foot', '', card)
-    button('CONTINUE', 'primary', () => this.modalClose?.(), foot).append(el('kbd', '', 'E'))
+    button('TIẾP TỤC', 'primary', () => this.modalClose?.(), foot).append(el('kbd', '', 'E'))
   }
 
   openUpgrades(choices: { def: UpgradeDef; stacks: number }[], rerolls: number, onPick: (i: number) => void, onReroll: () => void): void {
@@ -710,40 +715,56 @@ export class UI {
       }
       return false
     })
-    el('h2', 'display', 'CHOOSE A POWER', card)
-    el('p', 'modal-lede', 'Pick one upgrade for this run. Stacks shown as level.', card)
+    const rarityLabel: Record<string, string> = {
+      common: 'Thường',
+      rare: 'Hiếm',
+      epic: 'Sử Thi',
+      legendary: 'Huyền Thoại',
+    }
+    const tagLabel: Record<string, string> = {
+      melee: 'CẬN CHIẾN',
+      bolt: 'TIA CHỚP',
+      dash: 'LƯỚT',
+      nova: 'TÂN TINH',
+      defense: 'PHÒNG THỦ',
+      mobility: 'CƠ ĐỘNG',
+    }
+    el('h2', 'display', 'CHỌN NÂNG CẤP', card)
+    el('p', 'modal-lede', 'Chọn một nâng cấp cho lượt chạy này. Cộng dồn được tính theo cấp độ.', card)
     const row = el('div', 'cards', '', card)
     choices.forEach((c, i) => {
       const b = el('button', `ucard ${c.def.rarity}`, '', row)
       b.type = 'button'
       b.style.animationDelay = `${i * 70}ms`
-      el('div', 'u-rarity', c.def.rarity.toUpperCase(), b)
+      el('div', 'u-rarity', rarityLabel[c.def.rarity] ?? c.def.rarity.toUpperCase(), b)
       const ic = el('div', 'u-icon', '', b)
       ic.innerHTML = icon(c.def.icon)
       el('div', 'u-name display', c.def.name, b)
       el('div', 'u-desc', c.def.desc, b)
-      el('div', 'u-meta', `${c.def.tag.toUpperCase()}  |  ${c.stacks ? `Lv ${c.stacks} -> ${c.stacks + 1}` : 'NEW'}${c.def.max > 1 ? ` (max ${c.def.max})` : ''}`, b)
+      const tag = tagLabel[c.def.tag] ?? c.def.tag.toUpperCase()
+      el('div', 'u-meta', `${tag}  |  ${c.stacks ? `Cấp ${c.stacks} -> ${c.stacks + 1}` : 'NHẬN MỚI'}${c.def.max > 1 ? ` (tối đa ${c.def.max})` : ''}`, b)
       el('kbd', 'u-key', `${i + 1}`, b)
       b.addEventListener('click', () => onPick(i))
     })
     const foot = el('div', 'modal-foot', '', card)
-    const rr = button(`REROLL (${rerolls})`, rerolls > 0 ? '' : 'disabled', () => onReroll(), foot)
+    const rr = button(`ĐỔI LẠI (${rerolls})`, rerolls > 0 ? '' : 'disabled', () => onReroll(), foot)
     rr.disabled = rerolls <= 0
     rr.append(el('kbd', '', 'R'))
-    if (rerolls <= 0) el('span', 'small', 'Unlock rerolls at the Study Hall on campus.', foot)
+    if (rerolls <= 0) el('span', 'small', 'Mở khóa lượt đổi lại tại Bảng Phát Triển Anh Hùng ở sảnh học viện.', foot)
   }
 
   openShop(items: ShopItem[], credits: number, onBuy: (i: number) => void, onClose: () => void): void {
     const card = this.modal('shop', onClose)
-    el('h2', 'display', 'HERO SUPPLY VENDING', card)
-    el('p', 'modal-lede', `You have ${credits} credits.`, card)
+    el('h2', 'display', 'CỬA HÀNG TIẾP TẾ', card)
+    el('p', 'modal-lede', `Bạn hiện có ${credits} Tín Dụng.`, card)
     const list = el('div', 'shop-list', '', card)
     items.forEach((it, i) => {
       const row = el('div', `shop-item${it.sold ? ' sold' : ''}${it.rarity ? ` ${it.rarity}` : ''}`, '', list)
       const info = el('div', 'shop-info', '', row)
       el('div', 'shop-name', it.name, info)
       el('div', 'shop-desc', it.desc, info)
-      const b = button(it.sold ? 'SOLD' : `${it.price} CR`, it.sold || credits < it.price ? 'disabled' : 'primary', () => onBuy(i), row)
+      const label = it.sold ? 'ĐÃ BÁN' : credits < it.price ? `KHÔNG ĐỦ (${it.price} TD)` : `MUA (${it.price} TD)`
+      const b = button(label, it.sold || credits < it.price ? 'disabled' : 'primary', () => onBuy(i), row)
       b.disabled = it.sold || credits < it.price
     })
     this.closeBtn(card)
@@ -751,20 +772,20 @@ export class UI {
 
   openBoard(dev: Record<DevId, number>, merits: number, onBuy: (id: DevId) => void, onClose: () => void): void {
     const card = this.modal('board', onClose)
-    el('h2', 'display', 'HERO DEVELOPMENT BOARD', card)
-    el('p', 'modal-lede', `Permanent upgrades. You have ${merits} Merits (earned on every run, win or lose).`, card)
+    el('h2', 'display', 'BẢNG PHÁT TRIỂN ANH HÙNG', card)
+    el('p', 'modal-lede', `Nâng cấp vĩnh viễn. Bạn hiện có ${merits} Chiến Công (nhận được sau mỗi lượt chạy, dù thắng hay bại).`, card)
     const list = el('div', 'dev-list', '', card)
     for (const d of DEV_BOARD) {
       const lvl = dev[d.id]
       const row = el('div', 'dev-row', '', list)
       const info = el('div', 'dev-info', '', row)
       el('div', 'dev-name display', d.name, info)
-      el('div', 'dev-desc', lvl ? `Now: ${d.desc(lvl)}` : 'Not trained yet', info)
-      el('div', 'dev-next', lvl < d.max ? `Next: ${d.desc(lvl + 1)}` : 'MASTERED', info)
+      el('div', 'dev-desc', lvl ? `Hiện tại: ${d.desc(lvl)}` : 'Chưa huấn luyện', info)
+      el('div', 'dev-next', lvl < d.max ? `Tiếp theo: ${d.desc(lvl + 1)}` : 'ĐÃ TỐI ĐA', info)
       const pips = el('div', 'dev-pips', '', row)
       for (let i = 0; i < d.max; i += 1) el('i', i < lvl ? 'on' : '', '', pips)
       const cost = d.cost(lvl)
-      const b = button(lvl >= d.max ? 'MAX' : `${cost} M`, lvl >= d.max || merits < cost ? 'disabled' : 'primary', () => onBuy(d.id), row)
+      const b = button(lvl >= d.max ? 'TỐI ĐA' : `${cost} CC`, lvl >= d.max || merits < cost ? 'disabled' : 'primary', () => onBuy(d.id), row)
       b.disabled = lvl >= d.max || merits < cost
     }
     this.closeBtn(card)
@@ -772,7 +793,7 @@ export class UI {
 
   openCodex(save: SaveData, onClose: () => void): void {
     const card = this.modal('codex', onClose)
-    el('h2', 'display', 'ACADEMY CODEX', card)
+    el('h2', 'display', 'SỬ KÝ THÁP NGỤC', card)
     const tabs = el('div', 'tabs', '', card)
     const body = el('div', 'codex-body', '', card)
     const show = (tab: string) => {
@@ -782,29 +803,29 @@ export class UI {
         for (const r of RELICS) {
           const got = save.relics.includes(r.id)
           const e = el('div', `codex-entry${got ? '' : ' locked'}`, '', body)
-          el('div', 'ce-name', got ? r.name : '??? Undiscovered relic', e)
-          el('div', 'ce-desc', got ? `${r.effect} ${r.lore}` : 'Found in treasure vaults and challenge rooms.', e)
+          el('div', 'ce-name', got ? r.name : '??? Di vật chưa khám phá', e)
+          el('div', 'ce-desc', got ? `${r.effect} ${r.lore}` : 'Tìm thấy trong kho báu và phòng thử thách.', e)
         }
       } else if (tab === 'classmates') {
         for (const c of CLASSMATES) {
           const got = save.rescued.includes(c.id)
           const e = el('div', `codex-entry${got ? '' : ' locked'}`, '', body)
           e.style.setProperty('--accent', c.color)
-          el('div', 'ce-name', got ? `${c.name}  |  ${c.power}` : '??? Missing student', e)
-          el('div', 'ce-desc', got ? `Permanent assist: ${c.assist}. "${c.line}"` : 'Trapped somewhere in the Underhall. Look for detention cells (!).', e)
+          el('div', 'ce-name', got ? `${c.name}  |  ${c.power}` : '??? Học viên mất tích', e)
+          el('div', 'ce-desc', got ? `Hỗ trợ vĩnh viễn: ${c.assist}. "${c.line}"` : 'Đang bị giam cầm đâu đó trong Tháp Ngục. Hãy tìm các phòng giam giữ (!).', e)
         }
       } else if (tab === 'lore') {
         for (const l of LORE) {
           const got = save.lore.includes(l.id)
           const e = el('div', `codex-entry${got ? '' : ' locked'}`, '', body)
-          el('div', 'ce-name', got ? l.title : '??? Missing page', e)
-          el('div', 'ce-desc', got ? l.text : 'Archive nooks (?) hold lost pages about the vault.', e)
+          el('div', 'ce-name', got ? l.title : '??? Trang sử ký thất lạc', e)
+          el('div', 'ce-desc', got ? l.text : 'Các góc lưu trữ (?) cất giữ những trang sử ký thất lạc về Tháp Ngục.', e)
         }
       } else {
         const stats: [string, string][] = [
-          ['Runs', `${save.runs}`], ['Exams passed', `${save.wins}`], ['Best clear time', save.bestClear ? formatClock(save.bestClear) : '-'],
-          ['Total KOs', `${save.totalKills}`], ['Classmates rescued', `${save.rescued.length} / ${CLASSMATES.length}`],
-          ['Relics found', `${save.relics.length} / ${RELICS.length}`], ['Lore pages', `${save.lore.length} / ${LORE.length}`], ['Merits banked', `${save.merits}`],
+          ['Lượt chạy', `${save.runs}`], ['Thắng', `${save.wins}`], ['Thời gian nhanh nhất', save.bestClear ? formatClock(save.bestClear) : '-'],
+          ['Tổng hạ gục', `${save.totalKills}`], ['Bạn học đã cứu', `${save.rescued.length} / ${CLASSMATES.length}`],
+          ['Di vật tìm thấy', `${save.relics.length} / ${RELICS.length}`], ['Trang sử ký', `${save.lore.length} / ${LORE.length}`], ['Chiến công tích lũy', `${save.merits}`],
         ]
         const g = el('div', 'stat-grid', '', body)
         for (const [k, v] of stats) {
@@ -814,7 +835,7 @@ export class UI {
         }
       }
     }
-    for (const [id, label] of [['relics', `Relics ${save.relics.length}/${RELICS.length}`], ['classmates', `Classmates ${save.rescued.length}/${CLASSMATES.length}`], ['lore', `Lore ${save.lore.length}/${LORE.length}`], ['records', 'Records']]) {
+    for (const [id, label] of [['relics', `Di Vật ${save.relics.length}/${RELICS.length}`], ['classmates', `Bạn Học ${save.rescued.length}/${CLASSMATES.length}`], ['lore', `Trang Sử Ký ${save.lore.length}/${LORE.length}`], ['records', 'Thành Tích']]) {
       const b = button(label, '', () => show(id), tabs)
       b.dataset.tab = id
     }
@@ -830,8 +851,8 @@ export class UI {
       }
       return false
     })
-    el('h2', 'display', 'DESCEND INTO THE UNDERHALL', card)
-    el('p', 'modal-lede', 'Each floor is assembled from modular rooms by a seeded generator. The same seed always builds the same floor.', card)
+    el('h2', 'display', 'CỔNG THÁP NGỤC', card)
+    el('p', 'modal-lede', 'Mỗi tầng được lắp ghép từ các phòng mô-đun theo mã Seed. Cùng một mã Seed sẽ luôn tạo ra cấu trúc tầng giống hệt nhau.', card)
     const preview = el('div', 'wing-preview', '', card)
     const wname = el('div', 'wp-name display', '', preview)
     const wtag = el('div', 'wp-tag', '', preview)
@@ -840,39 +861,40 @@ export class UI {
     const input = el('input', '', '', row)
     input.maxLength = 24
     input.spellcheck = false
+    input.placeholder = 'Nhập số hoặc từ bất kỳ...'
     input.value = `${randomSeed()}`
-    button('RANDOM', '', () => {
+    button('NGẪU NHIÊN', '', () => {
       input.value = `${randomSeed()}`
       update()
     }, row)
-    if (lastSeed) button('LAST SEED', '', () => {
+    if (lastSeed) button('SEED TRƯỚC', '', () => {
       input.value = `${lastSeed}`
       update()
     }, row)
     const err = el('div', 'seed-err', '', card)
     const update = () => {
       const s = parseSeed(input.value)
-      err.textContent = s === null ? 'Enter a seed: any number or word works.' : ''
+      err.textContent = s === null ? 'Hãy nhập mã Seed: bất kỳ con số hoặc từ nào đều hợp lệ.' : ''
       if (s === null) return
       const w = WINGS[wingForSeed(s)]
-      wname.textContent = `Floor 1: ${w.name}`
-      wtag.textContent = `${w.tagline}  Then Floor 2: The Stacks Below.`
+      wname.textContent = `Tầng 1: ${w.name}`
+      wtag.textContent = `${w.tagline}  Tiếp nối Tầng 2: Thư Khố Sâu Thẳm.`
       preview.style.setProperty('--accent', w.trim)
       preview.style.setProperty('--bg', w.fog)
     }
     input.addEventListener('input', update)
     update()
     const facts = el('ul', 'descent-facts', '', card)
-    for (const f of ['Two floors, each a 7-room critical path to a boss: The Proctor, then The Librarian', 'Optional branches: fountain, store, trapped classmate, relic vault, lore', 'At least one healing stop before every boss, always']) el('li', '', f, facts)
+    for (const f of ['Hai tầng hầm, mỗi tầng gồm trục chính 7 phòng dẫn tới Trùm: Giám Thị, sau đó là Thủ Thư', 'Nhánh phụ tùy chọn: đài phun hồi máu, cửa hàng, bạn học bị giam, kho di vật, trang sử ký', 'Luôn đảm bảo có ít nhất một điểm hồi máu trước mỗi phòng Trùm']) el('li', '', f, facts)
     const foot = el('div', 'modal-foot', '', card)
-    button('NOT YET', 'ghost', () => this.modalClose?.(), foot)
+    button('CHƯA SẴN SÀNG', 'ghost', () => this.modalClose?.(), foot)
     const go = () => {
       const s = parseSeed(input.value)
       if (s === null) return
       this.sound()
       onStart(s)
     }
-    button('DESCEND', 'primary big', go, foot).append(el('kbd', '', 'ENTER'))
+    button('BẮT ĐẦU LƯỢT CHẠY', 'primary big', go, foot).append(el('kbd', '', 'ENTER'))
   }
 
   openResults(r: ResultsInfo, h: { hub: () => void; retry: () => void; fresh: () => void }): void {
@@ -884,31 +906,31 @@ export class UI {
       return false
     })
     const head = el('div', 'res-head', '', card)
-    el('div', 'res-title display', r.won ? 'UNDERHALL SEALED!' : 'KNOCKED OUT!', head)
-    el('div', 'res-sub', r.won ? 'The Proctor and The Librarian are sealed. The Underhall is quiet... for tonight.' : `Your classmates carried you back to campus from ${r.wing}.`, head)
+    el('div', 'res-title display', r.won ? 'CHIẾN THẮNG!' : 'THẤT BẠI', head)
+    el('div', 'res-sub', r.won ? 'Giám Thị và Thủ Thư đã bị phong ấn. Tháp Ngục Vô Tận tạm thời yên ắng... ít nhất là đêm nay.' : `Các bạn học đã đưa bạn trở về học viện từ ${r.wing}.`, head)
     const rank = el('div', `rank rank-${r.rank}`, '', head)
     el('span', 'display', r.rank, rank)
-    el('small', '', 'RANK', rank)
+    el('small', '', 'HẠNG', rank)
     const s = r.summary
     const g = el('div', 'stat-grid', '', card)
     for (const [k, v] of [
-      ['Time', formatClock(s.seconds) + (r.newBest ? '  NEW BEST' : '')], ['Rooms cleared', `${s.roomsCleared}`], ['KOs', `${s.kills}`],
-      ['Rescued', `${s.rescues}`], ['Relics', `${s.relics}`], ['Bosses', `${s.bosses} / 2`],
+      ['Thời gian', formatClock(s.seconds) + (r.newBest ? '  KỶ LỤC MỚI' : '')], ['Phòng đã dọn', `${s.roomsCleared}`], ['Hạ gục', `${s.kills}`],
+      ['Đã giải cứu', `${s.rescues}`], ['Di vật', `${s.relics}`], ['Trùm Tầng 1/2', `${s.bosses} / 2`],
     ] as [string, string][]) {
       const st = el('div', 'stat', '', g)
       el('div', 'stat-v display', v, st)
       el('div', 'stat-k', k, st)
     }
     const m = el('div', 'merit-line', '', card)
-    el('span', 'display', `+${r.merits} MERITS`, m)
-    el('span', 'small', 'Spend them at the Hero Development Board.', m)
-    if (r.rescued.length) el('p', 'small', `Rescued: ${r.rescued.join(', ')}`, card)
-    if (r.build.length) el('p', 'small', `Build: ${r.build.join(', ')}`, card)
-    el('p', 'small seed-note', `Seed ${s.seed}`, card)
+    el('span', 'display', `+${r.merits} CHIẾN CÔNG`, m)
+    el('span', 'small', 'Hãy dùng Chiến Công tại Bảng Phát Triển Anh Hùng.', m)
+    if (r.rescued.length) el('p', 'small', `Bạn học đã cứu: ${r.rescued.join(', ')}`, card)
+    if (r.build.length) el('p', 'small', `Bộ nâng cấp: ${r.build.join(', ')}`, card)
+    el('p', 'small seed-note', `Mã Seed chơi lại: ${s.seed}`, card)
     const foot = el('div', 'modal-foot', '', card)
-    button('RETRY SEED', '', h.retry, foot)
-    button('NEW FLOOR', '', h.fresh, foot)
-    button('RETURN TO CAMPUS', 'primary', h.hub, foot).append(el('kbd', '', 'ENTER'))
+    button('Chơi Lại Seed', '', h.retry, foot)
+    button('Chơi Lại', '', h.fresh, foot)
+    button('Về Sảnh', 'primary', h.hub, foot).append(el('kbd', '', 'ENTER'))
   }
 
   // ─── Touch controls ────────────────────────────────────────────────────
@@ -971,10 +993,12 @@ export class UI {
     look.addEventListener('pointerup', endLook)
     look.addEventListener('pointercancel', endLook)
     const btns = el('div', 't-buttons', '', t)
-    const tb = (action: 'attack' | 'bolt' | 'dash' | 'jump' | 'nova' | 'interact', ic: string, cls: string, parent = btns) => {
+    const tb = (action: 'attack' | 'bolt' | 'dash' | 'jump' | 'nova' | 'interact', ic: string, cls: string, label: string, parent = btns) => {
       const b = el('button', `t-btn ${cls}`, '', parent)
       b.type = 'button'
-      b.innerHTML = icon(ic)
+      b.title = label
+      b.setAttribute('aria-label', label)
+      b.innerHTML = `${icon(ic)}<span class="t-lbl">${label}</span>`
       b.addEventListener('pointerdown', e => {
         e.preventDefault()
         b.setPointerCapture(e.pointerId)
@@ -985,12 +1009,12 @@ export class UI {
       b.addEventListener('pointercancel', up)
       return b
     }
-    tb('attack', 'fist', 't-attack')
-    tb('bolt', 'bolt', 't-bolt')
-    this.refs.tDash = tb('dash', 'dash', 't-dash')
-    this.refs.tJump = tb('jump', 'wing', 't-jump')
-    tb('nova', 'star', 't-nova')
-    const ib = tb('interact', 'hand', 't-interact hidden', t)
+    tb('attack', 'fist', 't-attack', 'ĐÁNH')
+    tb('bolt', 'bolt', 't-bolt', 'BẮN')
+    this.refs.tDash = tb('dash', 'dash', 't-dash', 'LƯỚT')
+    this.refs.tJump = tb('jump', 'wing', 't-jump', 'NHẢY')
+    tb('nova', 'star', 't-nova', 'NỔ')
+    const ib = tb('interact', 'hand', 't-interact hidden', 'TƯƠNG TÁC', t)
     void ib
     const topb = el('div', 't-top', '', t)
     const pb = el('button', 't-small', 'II', topb)
@@ -999,7 +1023,7 @@ export class UI {
       this.input.setTouchButton('pause', true)
       window.setTimeout(() => this.input.setTouchButton('pause', false), 60)
     })
-    const mb = el('button', 't-small', 'MAP', topb)
+    const mb = el('button', 't-small', 'BẢN ĐỒ', topb)
     mb.addEventListener('pointerdown', e => {
       e.preventDefault()
       this.input.setTouchButton('map', true)
