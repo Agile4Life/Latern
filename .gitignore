@@ -4,6 +4,10 @@ Thap-Nguc-Vo-Tan-Agent-Handoff.zip
 # Dependencies & Build
 node_modules/
 dist/
+shots/
+smoke-shots/
+assets/source/
+assets/build/
 
 # Environment & Secrets
 .env
@@ -15,3 +19,5 @@ dist/
 # OS / Editor
 .DS_Store
 Thumbs.db
+
+
