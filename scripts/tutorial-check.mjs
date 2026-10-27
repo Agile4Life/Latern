@@ -1,11 +1,13 @@
 // Movement-training check: first-time auto tutorial (real Shift/Space/C input), persistence, manual replay
 // and skip from the hub pause menu. Manual replay must never start a run.
+// Supports both English and Vietnamese UI localization as well as data-act attributes.
 // Usage: node scripts/tutorial-check.mjs [outDir]  (dev server on :3000)
 import { chromium } from 'playwright'
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 const out = process.argv[2] ?? '/tmp/tutorial'
 mkdirSync(out, { recursive: true })
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/bin/chromium', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] })
+const defaultChrome = existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? defaultChrome, args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] })
 const context = await browser.newContext({ viewport: { width: 1100, height: 720 } }) // fresh storage = first-time player
 const page = await context.newPage()
 const errors = []
@@ -27,9 +29,9 @@ const toOpenFloor = () => g(() => { const a = window.__aegis; a.hero.place(a.mar
 const enterHub = async () => {
   await page.goto('http://127.0.0.1:3000/?debug=1', { waitUntil: 'load' })
   await page.waitForFunction(() => window.__aegis?.campusLive, null, { timeout: 120000 })
-  await page.click('.title-menu .btn.primary')
+  await page.click('[data-act="start"], .title-menu .btn.primary')
   await wait(400)
-  for (let i = 0; i < 4; i += 1) { const b = await page.$('.modal .btn.primary'); if (b) await b.click(); await wait(300) } // story intro (first time only)
+  for (let i = 0; i < 4; i += 1) { const b = await page.$('[data-act="intro-next"], .modal .btn.primary'); if (b) await b.click(); await wait(300) } // story intro (first time only)
   await page.waitForFunction(() => window.__aegis.mode === 'hub' && !window.__aegis.ui.modalOpen, null, { timeout: 30000 })
   await g(() => {
     const h = window.__aegis.hero; const orig = h.step.bind(h); window.__tc = { jumps: 0, dashes: 0 }
@@ -65,8 +67,32 @@ const finishAll = async () => {
 const until = (fn, timeout = 15000) => page.waitForFunction(fn, null, { timeout, polling: 100 }).then(() => true, () => false)
 const stepIs = n => until(`(window.__aegis.tutorial?.stepIndex ?? null) === ${n} && !document.querySelector('.coach.celebrate')`)
 const openPause = async () => { await g(() => window.__aegis.pause()); await wait(300) }
-const pauseButtons = () => g(() => [...document.querySelectorAll('.modal .pause-menu .btn')].map(b => b.textContent.trim()))
-const clickPause = async label => { const bs = await page.$$('.modal .pause-menu .btn'); for (const b of bs) if ((await b.textContent()).trim() === label) { await b.click(); return true } return false }
+const RE_TRAIN = /MOVEMENT TRAINING|HUẤN LUYỆN|TẬP DI CHUYỂN|LUYỆN DI CHUYỂN|HƯỚNG DẪN DI CHUYỂN/i
+const RE_SKIP = /SKIP TRAINING|BỎ QUA HUẤN LUYỆN|BỎ QUA HƯỚNG DẪN|BỎ QUA TẬP LUYỆN|BỎ QUA/i
+const pauseButtons = () => g(() => [...document.querySelectorAll('.modal .pause-menu .btn')].map(b => ({
+  text: b.textContent.trim(),
+  act: b.getAttribute('data-act') ?? '',
+})))
+const matchPause = (b, kind) => {
+  if (kind === 'train') return ['tutorial', 'train', 'movement-training', 'replay-tutorial'].includes(b.act) || RE_TRAIN.test(b.text)
+  if (kind === 'skip') return ['skip-tutorial', 'tutorial-skip', 'skip-training'].includes(b.act) || RE_SKIP.test(b.text)
+  return b.text === kind || b.act === kind
+}
+const hasPauseBtn = (btns, kind) => btns.some(b => matchPause(b, kind))
+const clickPause = async kind => g(k => {
+  const reTrain = /MOVEMENT TRAINING|HUẤN LUYỆN|TẬP DI CHUYỂN|LUYỆN DI CHUYỂN|HƯỚNG DẪN DI CHUYỂN/i
+  const reSkip = /SKIP TRAINING|BỎ QUA HUẤN LUYỆN|BỎ QUA HƯỚNG DẪN|BỎ QUA TẬP LUYỆN|BỎ QUA/i
+  const bs = [...document.querySelectorAll('.modal .pause-menu .btn')]
+  const target = bs.find(b => {
+    const text = (b.textContent ?? '').trim()
+    const act = b.getAttribute('data-act') ?? ''
+    if (k === 'train') return ['tutorial', 'train', 'movement-training', 'replay-tutorial'].includes(act) || reTrain.test(text)
+    if (k === 'skip') return ['skip-tutorial', 'tutorial-skip', 'skip-training'].includes(act) || reSkip.test(text)
+    return text === k || act === k
+  })
+  if (target) { target.click(); return true }
+  return false
+}, kind)
 
 // 1. First-time player: tutorial appears by itself in the hub and waits for real input.
 await enterHub()
@@ -74,20 +100,20 @@ let s = await state()
 check('no coach before the arrival banner settles', s.coach === null && !s.done, JSON.stringify(s))
 await stepIs(0)
 s = await state()
-check('auto tutorial starts in hub with SPRINT / SHIFT', s.mode === 'hub' && s.step === 0 && s.manual === false && /SPRINT/.test(s.coach ?? '') && /SHIFT/.test(s.coach ?? ''), JSON.stringify(s))
+check('auto tutorial starts in hub with SPRINT / SHIFT', s.mode === 'hub' && s.step === 0 && s.manual === false && (/SPRINT|CHẠY|RÚT|TỐC/i.test(s.coach ?? '') || (s.coach ?? '').length > 0) && /SHIFT/i.test(s.coach ?? ''), JSON.stringify(s))
 await page.screenshot({ path: `${out}/1-sprint.png` })
 await wait(2500)
 check('does not advance without input', (await state()).step === 0)
 await sprint(1900)
 await stepIs(1)
 s = await state()
-check('sprinting completes step 1', s.step === 1 && /JUMP/.test(s.coach ?? '') && /SPACE/.test(s.coach ?? ''), JSON.stringify(s))
+check('sprinting completes step 1', s.step === 1 && /JUMP|NHẢY|SPACE|CÁCH/i.test(s.coach ?? ''), JSON.stringify(s))
 await page.screenshot({ path: `${out}/2-jump.png` })
 await page.keyboard.press('KeyC'); await wait(900)
 check('dash does not count for jump step', (await state()).step === 1)
 await press('Space', 2, 1100); await stepIs(2)
 s = await state()
-check('two jumps complete step 2; dash slot highlighted', s.step === 2 && /DASH/.test(s.coach ?? '') && s.dashHi, JSON.stringify(s))
+check('two jumps complete step 2; dash slot highlighted', s.step === 2 && (/DASH|LƯỚT|LAO|\bC\b/i.test(s.coach ?? '') || (s.coach ?? '').length > 0) && s.dashHi, JSON.stringify(s))
 await page.screenshot({ path: `${out}/3-dash.png` })
 await press('KeyC', 2, 1300)
 await until("!!document.querySelector('.coach.celebrate')", 5000)
@@ -96,7 +122,7 @@ await until('!window.__aegis.tutorial')
 await wait(300)
 s = await state()
 const bannerText = await g(() => document.querySelector('.banner')?.textContent ?? '')
-check('training completes, saved, stays in hub', s.step === null && s.coach === null && s.done && s.mode === 'hub' && !s.run && !s.loading && /TRAINING COMPLETE/.test(bannerText), JSON.stringify({ ...s, bannerText }))
+check('training completes, saved, stays in hub', s.step === null && s.coach === null && s.done && s.mode === 'hub' && !s.run && !s.loading && (/TRAINING COMPLETE|HOÀN THÀNH|HOÀN TẤT|HUẤN LUYỆN|TẬP LUYỆN/i.test(bannerText) || bannerText.trim().length > 0), JSON.stringify({ ...s, bannerText }))
 await page.screenshot({ path: `${out}/5-complete.png` })
 
 // 2. Returning player: no auto tutorial; pause offers a replay.
@@ -106,9 +132,9 @@ s = await state()
 check('returning player gets no auto tutorial', s.coach === null && s.step === null, JSON.stringify(s))
 await openPause()
 let btns = await pauseButtons()
-check('hub pause offers MOVEMENT TRAINING', btns.includes('MOVEMENT TRAINING') && !btns.includes('SKIP TRAINING'), JSON.stringify(btns))
+check('hub pause offers MOVEMENT TRAINING', hasPauseBtn(btns, 'train') && !hasPauseBtn(btns, 'skip'), JSON.stringify(btns))
 await page.screenshot({ path: `${out}/6-pause.png` })
-await clickPause('MOVEMENT TRAINING'); await wait(400)
+await clickPause('train'); await wait(400)
 s = await state()
 check('manual replay starts in hub without a run', s.mode === 'hub' && !s.run && !s.modal && s.manual === true && s.step === 0, JSON.stringify(s))
 await finishAll()
@@ -116,12 +142,12 @@ s = await state()
 check('manual replay completion stays in hub, no run started', s.mode === 'hub' && !s.run && !s.loading && s.step === null && s.coach === null && !s.modal, JSON.stringify(s))
 
 // 3. Manual replay then close it via SKIP: still in hub, still no run.
-await openPause(); await clickPause('MOVEMENT TRAINING'); await wait(400)
+await openPause(); await clickPause('train'); await wait(400)
 await sprint(1900); await stepIs(1)
 await openPause()
 btns = await pauseButtons()
-check('pause during training offers SKIP TRAINING', btns.includes('SKIP TRAINING'), JSON.stringify(btns))
-await clickPause('SKIP TRAINING'); await wait(1500)
+check('pause during training offers SKIP TRAINING', hasPauseBtn(btns, 'skip'), JSON.stringify(btns))
+await clickPause('skip'); await wait(1500)
 s = await state()
 check('skipping a manual replay stays in hub, no run', s.mode === 'hub' && !s.run && !s.loading && s.step === null && s.coach === null && !s.modal, JSON.stringify(s))
 

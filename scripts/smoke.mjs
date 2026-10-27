@@ -1,13 +1,14 @@
 // Headless smoke test: drives the real game through its main flow and captures screenshots.
 // Usage: node scripts/smoke.mjs [baseUrl]   (defaults to http://127.0.0.1:3000/)
 import { chromium } from 'playwright'
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 
 const base = process.argv[2] ?? 'http://127.0.0.1:3000/'
 const out = 'smoke-shots'
 mkdirSync(out, { recursive: true })
 const errors = []
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/bin/chromium', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] })
+const defaultChrome = existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? defaultChrome, args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] })
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 // The dev server has no favicon link (the sharing build injects it), so ignore that one request.
 page.on('console', m => { if (m.type() === 'error' && !(m.location()?.url ?? '').endsWith('/favicon.ico')) errors.push(`${m.text()} @ ${m.location()?.url ?? ''}`) })
@@ -32,10 +33,15 @@ await page.waitForFunction(() => window.__aegis?.campusLive, null, { timeout: 12
 // The title shows before anything streams; the title + first-wave stages must finish behind it.
 await page.waitForFunction(() => { const st = window.__aegis.streamer?.stats; return !st || (st.ready.title && st.ready.wave1) }, null, { timeout: 90000 })
   .catch(() => errors.push('title/wave1 stages not ready after the campus went live'))
-await page.click('.title-menu .btn.primary')
+await page.click('[data-act="start"], .title-menu .btn.primary')
 await wait(400)
 await shot('02-intro')
-for (let i = 0; i < 3; i += 1) { await page.click('.modal .btn.primary'); await wait(250) }
+for (let i = 0; i < 4; i += 1) {
+  const b = await page.$('[data-act="intro-next"], .modal .btn.primary')
+  if (!b) break
+  await b.click()
+  await wait(250)
+}
 await wait(1200)
 await shot('03-hub')
 // Walk forward in the hub for a moment.
