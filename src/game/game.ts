@@ -32,6 +32,7 @@ import {
   addUpgrade, computeMerits, deriveStats, emptyBuild, heroRank, rollDamage, rollUpgradeChoices, takeDamage,
   type HeroStats, type RunBuild, type RunSummary,
 } from './rules'
+import { tuning } from './tuning'
 import type { HudData, ShopItem, UI } from '../ui/ui'
 
 type Mode = 'title' | 'hub' | 'run' | 'results'
@@ -591,6 +592,7 @@ export class Game {
   }
 
   private beginRun(seed: number): void {
+    tuning.activate('run')
     const build = emptyBuild()
     const stats = deriveStats(build, { dev: this.save.data.dev, rescued: this.save.data.rescued })
     this.run = {

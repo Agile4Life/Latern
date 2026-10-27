@@ -4,6 +4,7 @@ import { CONFIG, DEFAULT_CONFIG } from '../src/game/config'
 import { tuning } from '../src/game/tuning'
 import { Hero, type HeroIntent } from '../src/game/hero'
 import { ShoulderCamera } from '../src/game/camera'
+import { deriveStats, emptyBuild, emptyDev } from '../src/game/rules'
 import type { Level } from '../src/game/level'
 
 const defaults = Object.fromEntries(tuning.controls.map(control => [control.id, control.default]))
@@ -54,13 +55,13 @@ describe('Three.js tuning', () => {
   it('keeps next-action and next-run values pending until their own boundary', () => {
     tuning.apply({ 'player.jumpSpeed': 14, 'player.dashSpeed': 28, 'run.baseHp': 150 })
     expect(CONFIG.player.jumpSpeed).toBe(DEFAULT_CONFIG.player.jumpSpeed)
-    expect(CONFIG.run.baseHp).toBe(100)
+    expect(deriveStats(emptyBuild(), { dev: emptyDev(), rescued: [] }).maxHp).toBe(100)
     tuning.activate('jump')
     expect(CONFIG.player.jumpSpeed).toBe(14)
     expect(CONFIG.player.dashSpeed).toBe(DEFAULT_CONFIG.player.dashSpeed)
     expect(tuning.read().requested['run.baseHp']).toBe(150)
     tuning.activate('run')
-    expect(CONFIG.run.baseHp).toBe(150)
+    expect(deriveStats(emptyBuild(), { dev: emptyDev(), rescued: [] }).maxHp).toBe(150)
     expect(CONFIG.player.dashSpeed).toBe(DEFAULT_CONFIG.player.dashSpeed)
   })
 

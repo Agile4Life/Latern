@@ -1,6 +1,7 @@
 import {
   CLASSMATE_BY_ID, UPGRADES, type ClassmateId, type DevId, type Rarity, type RelicId, type UpgradeId,
 } from './content'
+import { CONFIG } from './config'
 import type { Rng } from './rng'
 
 /**
@@ -53,7 +54,7 @@ export const emptyBuild = (): RunBuild => ({ upgrades: {}, relics: [], classmate
 export const emptyDev = (): Record<DevId, number> => ({ vitality: 0, training: 0, focus: 0, insight: 0 })
 
 export function deriveStats(build: RunBuild, meta: MetaProgress): HeroStats {
-  const s: HeroStats = { ...BASE_STATS }
+  const s: HeroStats = { ...BASE_STATS, maxHp: CONFIG.run.baseHp }
   const n = (id: UpgradeId) => build.upgrades[id] ?? 0
   // Hero Development Board (permanent).
   s.maxHp += meta.dev.vitality * 10
