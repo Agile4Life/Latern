@@ -183,41 +183,41 @@ export class Game {
       img.onload = img.onerror = () => res()
       img.src = TITLE_POSTER
       void img.decode?.().then(() => res(), () => res())
-    }), { label: 'Opening the doors' })
+    }), { label: 'Đang mở cổng học viện...' })
     // Campus (behind the title): hero + campus models/surfaces, then its shaders once it's built.
-    st.add('hub', 'models:campus', () => this.loadCore(), { label: 'Suiting up' })
+    st.add('hub', 'models:campus', () => this.loadCore(), { label: 'Đang chuẩn bị trang bị...' })
     st.add('hub', 'shaders:campus', async () => {
       await this.hubReady
       await this.renderer.warm(this.scene, this.scene, this.cam.camera)
-    }, { label: 'Compiling campus shaders' })
+    }, { label: 'Đang dựng Sảnh Khởi Nguồn...' })
     // First wave: enemy bodies, then every enemy archetype, pickup, hazard and room prop a first fight can show.
-    st.add('wave1', 'models:enemies', () => preloadCharacters(['shade', 'bruiser']), { label: 'Loading the Underhall' })
+    st.add('wave1', 'models:enemies', () => preloadCharacters(['shade', 'bruiser']), { label: 'Đang tải Tháp Ngục...' })
     st.add('wave1', 'shaders:combat', async () => {
       await preloadCharacters(['shade', 'bruiser'])
       mark('wave1-warm')
       await this.renderer.warm(this.combatWarmSet(), this.scene, this.cam.camera)
       mark('wave1-warmed')
-    }, { label: 'Compiling enemy shaders' })
+    }, { label: 'Đang khởi tạo quái vật...' })
     // Floors: wing surfaces/props for every wing the floor can roll, plus classmates to rescue.
     st.add('floor1', 'models:floor1', () => Promise.all([
       preloadCharacters(CLASSMATES.map(c => c.id)),
       ...WING_IDS.filter(w => w !== 'stacks').map(w => { const a = wingAssets(w); return preloadAll(a.models, a.textures) }),
-    ]).then(() => undefined), { label: 'Loading the wings' })
-    st.add('floor2', 'models:floor2', () => { const a = wingAssets('stacks'); return preloadAll(a.models, a.textures) }, { label: 'Loading the Stacks' })
-    st.add('boss1', 'models:proctor', () => preloadCharacters(['proctor']), { label: 'Summoning The Proctor' })
-    st.add('boss2', 'models:librarian', () => preloadCharacters(['librarian']), { label: 'Waking The Librarian' })
+    ]).then(() => undefined), { label: 'Đang khởi tạo tầng...' })
+    st.add('floor2', 'models:floor2', () => { const a = wingAssets('stacks'); return preloadAll(a.models, a.textures) }, { label: 'Đang tải Tầng Thư Khố Sâu Thẳm...' })
+    st.add('boss1', 'models:proctor', () => preloadCharacters(['proctor']), { label: 'Đang triệu hồi Giám Thị...' })
+    st.add('boss2', 'models:librarian', () => preloadCharacters(['librarian']), { label: 'Đang đánh thức Thủ Thư...' })
     st.add('boss1', 'shaders:proctor', async () => {
       await preloadCharacters(['proctor'])
       await this.renderer.warm(new Boss(0, 0).rig.root, this.scene, this.cam.camera)
-    }, { label: 'Compiling The Proctor' })
+    }, { label: 'Đang hoàn tất Giám Thị...' })
     st.add('boss2', 'shaders:librarian', async () => {
       await preloadCharacters(['librarian'])
       await this.renderer.warm(new Librarian(0, 0, 22).warmSet(), this.scene, this.cam.camera)
-    }, { label: 'Compiling The Librarian' })
+    }, { label: 'Đang hoàn tất Thủ Thư...' })
     for (const stage of LOAD_STAGES) {
       const clips = STAGE_SFX[stage]
-      if (clips) st.add(stage, `sfx:${stage}`, () => this.audio.loadClips(clips), { label: stage === 'wave1' ? 'Loading combat sounds' : 'Loading sounds', essential: stage !== 'title' })
-      for (const t of STAGE_MUSIC[stage] ?? []) st.add(stage, `music:${t}`, () => this.audio.prefetch(t), { label: `Buffering ${t} music`, essential: false })
+      if (clips) st.add(stage, `sfx:${stage}`, () => this.audio.loadClips(clips), { label: stage === 'wave1' ? 'Đang tải âm thanh chiến đấu...' : 'Đang tải hiệu ứng âm thanh...', essential: stage !== 'title' })
+      for (const t of STAGE_MUSIC[stage] ?? []) st.add(stage, `music:${t}`, () => this.audio.prefetch(t), { label: `Đang tải nhạc nền (${t})...`, essential: false })
     }
   }
 
@@ -268,7 +268,7 @@ export class Game {
     report()
     await Promise.all(BOOT_STAGES.map(s => this.streamer.require(s)))
     window.clearInterval(timer)
-    progress(1, 'Opening the doors...')
+    progress(1, 'Đang mở cổng học viện...')
     void this.prepareCampus()
   }
 
@@ -357,7 +357,7 @@ export class Game {
       if (this.loading) return
       this.loading = true
       void (async () => {
-        await this.ui.curtain(true, 'Opening the Hall of Origins...')
+        await this.ui.curtain(true, 'Đang dựng Sảnh Khởi Nguồn...')
         const timer = window.setInterval(() => this.ui.curtainProgress(this.streamer.progress(['hub'], true)), 60)
         await this.prepareCampus()
         window.clearInterval(timer)
@@ -373,7 +373,7 @@ export class Game {
     const go = () => {
       this.mode = 'hub'
       this.ui.setMode('hub')
-      this.ui.banner('HALL OF ORIGINS', 'Super Academy  -  11:59 PM', 'gold')
+      this.ui.banner('SẢNH KHỞI NGUỒN', 'Học Viện Siêu Anh Hùng  -  23:59', 'gold')
       this.input.lockPointer()
     }
     if (!this.save.data.introSeen) {
@@ -397,7 +397,7 @@ export class Game {
       training: this.mode !== 'hub' ? null : this.tutorial || !this.save.data.tutorialDone ? 'active' : 'replay',
       inRun: !!r,
       seed: r?.seed ?? this.save.data.lastSeed,
-      wing: r ? WINGS[r.plan.wing].name : 'Hall of Origins',
+      wing: r ? WINGS[r.plan.wing].name : 'Sảnh Khởi Nguồn',
       report: r ? r.plan.report : [],
       fallback: r?.plan.fallback ?? false,
       rooms: r ? r.plan.rooms.length : 0,
@@ -439,7 +439,7 @@ export class Game {
     this.tutorial = null
     this.save.update({ tutorialDone: true })
     this.resume()
-    this.ui.toast('Training skipped. Replay it any time from the pause menu.')
+    this.ui.toast('Đã bỏ qua hướng dẫn. Bạn có thể tập lại bất cứ lúc nào từ menu Tạm dừng.')
   }
   private stepTutorial(dt: number, events: HeroEvent[]): void {
     if (!this.tutorial) {
@@ -462,7 +462,7 @@ export class Game {
       this.save.update({ tutorialDone: true })
       this.audio.play('reward')
       // Stay right here in the hub either way; the player walks to the portal when ready.
-      this.ui.banner('TRAINING COMPLETE', manual ? 'Moves sharp. Carry on, hero.' : 'Now head north to the Vault Portal', 'green')
+      this.ui.banner('HOÀN THÀNH HUẤN LUYỆN', manual ? 'Thân pháp rất nhạy bén. Tiếp tục phát huy nhé, anh hùng!' : 'Giờ hãy tiến về phía Bắc tới Cổng Tháp Ngục', 'green')
     }
   }
 
@@ -538,10 +538,10 @@ export class Game {
       const obj = new THREE.Group()
       this.items.push({ kind, pos, radius, prompt, auto: false, obj, room: 0, used: false, enabled: true })
     }
-    add('vault', markers.V.clone().setZ(markers.V.z - 0.2), 'Descend into the Underhall', 3)
-    add('board', markers.B.clone(), 'Hero Development Board')
-    add('codex', markers.C.clone(), 'Codex: Relics, Classmates & Lore')
-    add('notice', markers.N.clone(), 'Notice Board: How to Play')
+    add('vault', markers.V.clone().setZ(markers.V.z - 0.2), 'Tiến xuống Tháp Ngục', 3)
+    add('board', markers.B.clone(), 'Bảng Rèn Luyện Anh Hùng')
+    add('codex', markers.C.clone(), 'Từ Điển: Thánh Vật, Đồng Đội & Nhật Ký')
+    add('notice', markers.N.clone(), 'Bảng Thông Báo: Hướng Dẫn Chơi')
     // Rescued classmates hang out by the Rescue Wall.
     this.save.data.rescued.forEach((id, i) => {
       const c = CLASSMATE_BY_ID[id]
@@ -553,7 +553,7 @@ export class Game {
       level.group.add(rig.root)
       this.npcs.push({ obj: rig.root, id })
       level.circles.push({ x: spot.x, z: spot.z, r: 0.45 })
-      this.items.push({ kind: 'npc', pos: spot.clone(), radius: 1.8, prompt: `Talk to ${c.name}`, auto: false, obj: new THREE.Group(), room: 0, used: false, enabled: true, data: id })
+      this.items.push({ kind: 'npc', pos: spot.clone(), radius: 1.8, prompt: `Trò chuyện với ${c.name}`, auto: false, obj: new THREE.Group(), room: 0, used: false, enabled: true, data: id })
     })
     this.mode = title ? 'title' : 'hub'
     this.tutorial = null
@@ -566,7 +566,7 @@ export class Game {
     this.ui.bossBar(false)
     if (!title) {
       this.ui.setMode('hub')
-      this.ui.banner('BACK ON CAMPUS', `${this.save.data.merits} Merits to spend at the Development Board`, 'gold')
+      this.ui.banner('TRỞ VỀ HỌC VIỆN', `Đang có ${this.save.data.merits} Công Trạng để nâng cấp tại Bảng Rèn Luyện`, 'gold')
     }
   }
 
@@ -587,7 +587,7 @@ export class Game {
     if (this.loading) return
     this.streamer.focus('floor1')
     this.audio.play('portal')
-    void this.transition(['wave1', 'floor1'], 'Unsealing the Underhall...', () => this.beginRun(seed))
+    void this.transition(['wave1', 'floor1'], 'Đang khởi tạo tầng...', () => this.beginRun(seed))
   }
 
   private beginRun(seed: number): void {
@@ -638,7 +638,7 @@ export class Game {
     this.ui.showMap(false)
     this.audio.setIntensity(0)
     this.audio.music(floor === 1 ? 'floor1' : 'floor2', 1.8)
-    this.ui.banner(`FLOOR ${floor}: ${WINGS[plan.wing].name.toUpperCase()}`, `${WINGS[plan.wing].tagline}  -  Seed ${r.seed}`, floor === 1 ? 'purple' : 'green')
+    this.ui.banner(`TẦNG ${floor}: ${WINGS[plan.wing].name.toUpperCase()}`, `${WINGS[plan.wing].tagline}  -  Mã tầng ${r.seed}`, floor === 1 ? 'purple' : 'green')
     this.input.clearPresses()
     this.input.lockPointer()
   }
@@ -650,10 +650,10 @@ export class Game {
     this.audio.play('descend')
     this.streamer.focus('floor2')
     const breather = Math.round(this.hero.stats.maxHp * 0.25)
-    void this.transition('floor2', 'Descending to The Stacks Below...', () => {
+    void this.transition('floor2', 'Đang mở cổng tầng 2: Tầng Thư Khố Sâu Thẳm...', () => {
       this.loadFloor(r.floor + 1)
       this.heal(breather, false)
-      this.ui.toast(`You catch your breath on the way down: +${breather} HP`)
+      this.ui.toast(`Bạn lấy lại nhịp thở trên đường xuống tầng dưới: +${breather} MÁU`)
     })
   }
 
@@ -673,7 +673,7 @@ export class Game {
           f.position.copy(c)
           level.group.add(f)
           level.circles.push({ x: c.x, z: c.z, r: 1.5 })
-          this.addItem('fountain', c, 'Drink from the Restoration Fountain (full heal)', room.id, f, false, 3)
+          this.addItem('fountain', c, 'Uống nước Đài Phun Hồi Phục (Đầy Máu & Năng Lượng)', room.id, f, false, 3)
           break
         }
         case 'shop': {
@@ -681,7 +681,7 @@ export class Game {
           v.position.copy(c)
           level.group.add(v)
           level.circles.push({ x: c.x, z: c.z, r: 1.1 })
-          this.addItem('vending', c, 'Use the Hero Supply Vending Machine', room.id, v, false, 3)
+          this.addItem('vending', c, 'Sử dụng Máy Bán Hàng Chi Viện', room.id, v, false, 3)
           r.shop.set(room.id, this.makeShop(room))
           break
         }
@@ -690,7 +690,7 @@ export class Game {
           l.position.copy(c)
           level.group.add(l)
           level.circles.push({ x: c.x, z: c.z, r: 0.6 })
-          this.addItem('lore', c, 'Read the lost page', room.id, l, false, 2.4).data = room.lore
+          this.addItem('lore', c, 'Đọc trang nhật ký thất lạc', room.id, l, false, 2.4).data = room.lore
           break
         }
         case 'treasure': {
@@ -702,12 +702,12 @@ export class Game {
             const gem = makeRelicGem()
             gem.position.copy(c)
             level.group.add(gem)
-            this.addItem('relic', c, 'Claim the academy relic', room.id, gem, false, 2.6)
+            this.addItem('relic', c, 'Nhận Thánh Vật Học Viện', room.id, gem, false, 2.6)
           } else {
             const orb = makeUpgradeOrb()
             orb.position.copy(c).setY(0.6)
             level.group.add(orb)
-            this.addItem('upgrade', c, 'Take the power card', room.id, orb, true, 2.2)
+            this.addItem('upgrade', c, 'Nhận Thẻ Sức Mạnh', room.id, orb, true, 2.2)
           }
           break
         }
@@ -724,7 +724,7 @@ export class Game {
           rig.root.add(crystal)
           level.group.add(rig.root)
           level.circles.push({ x: c.x, z: c.z, r: 1.2 })
-          const it = this.addItem('capsule', c, `Free ${cm.name} from the Detention Crystal`, room.id, rig.root, false, 3)
+          const it = this.addItem('capsule', c, `Giải cứu ${cm.name} khỏi Pha Lê Giam Giữ`, room.id, rig.root, false, 3)
           it.enabled = false
           it.data = id
           break
@@ -735,7 +735,7 @@ export class Game {
           level.group.add(p.root)
           level.animate(p.swirl, 'spin', 1.2)
           const last = plan.floor >= FLOOR_COUNT
-          const it = this.addItem('portal', c, last ? 'Escape through the portal to campus' : 'Descend to Floor 2: The Stacks Below', room.id, p.root, false, 3)
+          const it = this.addItem('portal', c, last ? 'Thoát qua cổng dịch chuyển về Học Viện' : 'Xuống Tầng 2: Tầng Thư Khố Sâu Thẳm', room.id, p.root, false, 3)
           it.enabled = false
           break
         }
@@ -760,8 +760,8 @@ export class Game {
     const disc = () => this.hero.stats.shopDiscount
     const up = rollUpgradeChoices(rng, r.build, true, 2)
     const items: ShopItem[] = [
-      { id: 'snack', name: 'Cafeteria Hero Hoagie', desc: 'Restore 40 HP.', price: Math.round(25 * disc()), sold: false },
-      { id: 'soda', name: 'Voltage Cola', desc: 'Refill your Power to full.', price: Math.round(18 * disc()), sold: false },
+      { id: 'snack', name: 'Bánh Mì Kẹp Siêu Cấp', desc: 'Hồi phục 40 Máu.', price: Math.round(25 * disc()), sold: false },
+      { id: 'soda', name: 'Nước Tăng Lực Điện Quang', desc: 'Làm đầy thanh Năng Lượng.', price: Math.round(18 * disc()), sold: false },
       ...up.map(id => ({ id: `up:${id}`, name: UPGRADE_BY_ID[id].name, desc: UPGRADE_BY_ID[id].desc, price: Math.round((UPGRADE_BY_ID[id].rarity === 'epic' ? 80 : UPGRADE_BY_ID[id].rarity === 'rare' ? 60 : 45) * disc()), sold: false, rarity: UPGRADE_BY_ID[id].rarity })),
     ]
     return items
@@ -787,8 +787,8 @@ export class Game {
       this.hero.power = Math.max(this.hero.power, this.hero.stats.startPower)
       this.audio.play('lock')
       this.audio.setIntensity(1)
-      const label = room.kind === 'elite' ? 'ELITE ENCOUNTER!' : room.kind === 'challenge' ? 'CHALLENGE ROOM!' : room.kind === 'rescue' ? 'RESCUE!' : ['', 'HALL PASS DENIED!', 'DETENTION!', 'EXPULSION RISK!'][room.danger] || 'FIGHT!'
-      const sub = room.kind === 'challenge' ? 'Survive 3 waves to earn a relic' : room.kind === 'rescue' ? 'A classmate is trapped - clear the room' : `${room.waves} wave${room.waves > 1 ? 's' : ''} incoming`
+      const label = room.kind === 'elite' ? 'CHẠM TRÁN TINH ANH!' : room.kind === 'challenge' ? 'PHÒNG THỬ THÁCH!' : room.kind === 'rescue' ? 'GIẢI CỨU ĐỒNG ĐỘI!' : ['', 'CẤM QUA HÀNH LANG!', 'PHẠT CẤM TÚC!', 'NGUY CƠ ĐUỔI HỌC!'][room.danger] || 'CHIẾN ĐẤU!'
+      const sub = room.kind === 'challenge' ? 'Sống sót qua 3 đợt quái để nhận Thánh Vật' : room.kind === 'rescue' ? 'Bạn học đang bị giam - hãy quét sạch phòng' : `${room.waves} đợt tấn công đang tới`
       this.ui.banner(label, sub, room.kind === 'elite' || room.danger >= 3 ? 'red' : 'blue')
     } else if (room.kind === 'boss' && !r.bossDefeated && this.boss && this.boss.state === 'dormant') {
       r.active = room.id
@@ -808,11 +808,11 @@ export class Game {
     } else if (!r.cleared.has(room.id) && !COMBAT_KINDS.has(room.kind) && room.kind !== 'boss') {
       r.cleared.add(room.id)
       const names: Partial<Record<RoomPlan['kind'], [string, string]>> = {
-        heal: ['NURSE\'S OFFICE', 'A Restoration Fountain bubbles here'],
-        shop: ['SCHOOL STORE', 'Spend credits on supplies'],
-        lore: ['ARCHIVE NOOK', 'Someone left a page behind'],
-        treasure: ['TROPHY VAULT', 'Something valuable glints'],
-        exit: ['EXIT PORTAL', 'The way home'],
+        heal: ['PHÒNG Y TẾ', 'Đài Phun Hồi Phục đang tuôn trào năng lượng'],
+        shop: ['CĂNG TIN HỌC VIỆN', 'Dùng Tín Chỉ để mua nhu yếu phẩm và nâng cấp'],
+        lore: ['GÓC LƯU TRỮ', 'Ai đó đã để lại một trang nhật ký mật'],
+        treasure: ['KHO BÁU HỌC VIỆN', 'Một bảo vật quý giá đang tỏa sáng'],
+        exit: ['CỔNG DỊCH CHUYỂN', 'Lối mở dẫn về phía trước'],
       }
       const n = names[room.kind]
       if (n) this.ui.banner(n[0], n[1], 'gold')
@@ -835,7 +835,7 @@ export class Game {
       }
       this.spawnEnemy(s.type, x, z, s.elite, tint)
     }
-    this.ui.toast(r.wave > 0 ? `Wave ${r.wave + 1} of ${room.waves}` : '')
+    this.ui.toast(r.wave > 0 ? `Đợt ${r.wave + 1} / ${room.waves}` : '')
   }
 
   private spawnEnemy(type: EnemyType, x: number, z: number, elite = false, tint = '#ffd35c'): void {
@@ -863,7 +863,7 @@ export class Game {
       const orb = makeUpgradeOrb()
       orb.position.copy(spot)
       this.level!.group.add(orb)
-      this.addItem('upgrade', spot, 'Power card', room.id, orb, true, 1.6)
+      this.addItem('upgrade', spot, 'Thẻ Sức Mạnh', room.id, orb, true, 1.6)
     } else if (rw === 'heal') {
       const orb = makeOrb('#6dff9e', 0.45)
       orb.position.copy(spot)
@@ -884,13 +884,13 @@ export class Game {
       const gem = makeRelicGem()
       gem.position.copy(spot)
       this.level!.group.add(gem)
-      this.addItem('relic', spot, 'Claim the academy relic', room.id, gem, false, 2.6)
+      this.addItem('relic', spot, 'Nhận Thánh Vật Học Viện', room.id, gem, false, 2.6)
     }
     if (room.kind === 'rescue') {
       const cap = this.items.find(i => i.kind === 'capsule' && i.room === room.id)
       if (cap) cap.enabled = true
     }
-    this.ui.banner(room.kind === 'challenge' ? 'CHALLENGE COMPLETE!' : room.kind === 'elite' ? 'ELITE DEFEATED!' : 'ROOM CLEARED!', rw === 'upgrade' ? 'A power card appeared' : rw === 'relic' ? 'A relic appeared' : room.kind === 'rescue' ? 'Free your classmate!' : '', 'gold')
+    this.ui.banner(room.kind === 'challenge' ? 'VƯỢT QUA THỬ THÁCH!' : room.kind === 'elite' ? 'HẠ GỤC TINH ANH!' : 'ĐÃ DỌN SẠCH PHÒNG!', rw === 'upgrade' ? 'Thẻ Sức Mạnh đã xuất hiện' : rw === 'relic' ? 'Thánh Vật đã xuất hiện' : room.kind === 'rescue' ? 'Hãy giải cứu bạn học của bạn!' : '', 'gold')
     this.audio.play('reward')
   }
 
@@ -931,7 +931,7 @@ export class Game {
     this.input.unlockPointer()
     this.ui.bossBar(false)
     this.ui.openResults({
-      won, rank: heroRank(summary), summary, merits, newBest, wing: `Floor ${r.floor}: ${WINGS[r.plan.wing].name}`,
+      won, rank: heroRank(summary), summary, merits, newBest, wing: `Tầng ${r.floor}: ${WINGS[r.plan.wing].name}`,
       rescued: r.rescues.map(id => CLASSMATE_BY_ID[id].name),
       build: Object.keys(r.build.upgrades).map(id => UPGRADE_BY_ID[id as UpgradeId].name),
     }, {
@@ -1068,9 +1068,9 @@ export class Game {
       onPhase: p => {
         const def = this.boss?.def ?? BOSSES.proctor
         const lines = def.id === 'librarian'
-          ? ['Pages tear loose. She blinks between the stacks.', 'The last bell rings. The shelves fall faster.']
-          : ['The Proctor raises the stakes', 'Pencils down. Survive.']
-        this.ui.banner(`PHASE ${p}: ${def.phases[p - 1]}`, lines[p - 2] ?? '', 'red')
+          ? ['Trang sách tung bay dữ dội. Bà ta dịch chuyển giữa các kệ sách!', 'Tiếng chuông cuối cùng vang lên. Kệ sách sập xuống dồn dập!']
+          : ['Giám Thị nâng mức độ khó của bài thi!', 'Đặt bút xuống! Hãy cố gắng sống sót!']
+        this.ui.banner(`GIAI ĐOẠN ${p}: ${def.phases[p - 1]}`, lines[p - 2] ?? '', 'red')
       },
       say: text => {
         if (this.boss) this.popWorld(this.boss.center.clone().setY(this.boss.center.y + 3.2), text, 'ko')
@@ -1148,7 +1148,7 @@ export class Game {
       this.level!.group.add(orb)
       this.addItem('heal', e.pos.clone().setY(0), '', r.current, orb, true, 1.1).value = 12
     }
-    this.popWorld(e.center, ['POW!', 'BAM!', 'KAPOW!', 'WHAM!', 'ZAP!'][Math.floor(Math.random() * 5)], 'ko')
+    this.popWorld(e.center, ['BỐP!', 'ẦM!', 'CHÁT!', 'BÙM!', 'XOẸT!'][Math.floor(Math.random() * 5)], 'ko')
   }
 
   private onBossDefeated(): void {
@@ -1245,7 +1245,7 @@ export class Game {
         this.fx.burst(shot.pos.clone(), '#7ef9ff', 3, 3, 0.1, 0.3)
         this.fx.killShot(shot)
       }
-      this.popWorld(c.clone().setY(2.5), 'SUPER NOVA!', 'nova')
+      this.popWorld(c.clone().setY(2.5), 'SIÊU TÂN TINH!', 'nova')
     } else if (e.type === 'dash') {
       this.audio.play('dash')
       this.dashHits.clear()
@@ -1280,7 +1280,7 @@ export class Game {
     const dir = pos.clone().sub(from).setY(0.25).normalize()
     this.fx.impact(pos, dir, crit ? '#ffd35c' : '#bff8ff', crit ? 1.4 : 1)
     this.audio.play(crit ? 'crit' : 'hit')
-    this.popWorld(pos.setY(pos.y + 0.8), crit ? `${amount}!` : `${amount}`, crit ? 'crit' : 'dmg')
+    this.popWorld(pos.setY(pos.y + 0.8), crit ? `CHÍ MẠNG! ${amount}` : `${amount}`, crit ? 'crit' : 'dmg')
   }
 
   private hurtHero(amount: number, from: THREE.Vector3, knock = 6): void {
@@ -1291,7 +1291,7 @@ export class Game {
       h.iframes = 0.5
       this.audio.play('block')
       this.fx.ring(h.pos.clone(), '#7ef9ff', 0.6, 2.4, 0.3)
-      this.popWorld(h.pos.clone().setY(2.4), 'BLOCKED!', 'block')
+      this.popWorld(h.pos.clone().setY(2.4), 'ĐỠ ĐÒN!', 'block')
       return
     }
     const res = takeDamage(h.hp, amount, h.stats, false)
@@ -1309,7 +1309,7 @@ export class Game {
         h.hp = Math.round(h.stats.maxHp * 0.5)
         h.iframes = 2
         this.fx.ring(h.pos.clone(), '#ffd35c', 0.5, 8, 0.6)
-        this.ui.banner("FOUNDER'S CAPE!", 'You refuse to give up', 'gold')
+        this.ui.banner('ÁO CHOÀNG SÁNG LẬP!', 'Bất tử! Bạn từ chối gục ngã!', 'gold')
         this.audio.play('heal')
         for (const e of this.enemies) e.stun(1.5, this.fx)
         return
@@ -1327,7 +1327,7 @@ export class Game {
     h.hp = Math.min(h.stats.maxHp, h.hp + amount)
     if (show && h.hp > before) {
       this.audio.play('heal')
-      this.popWorld(h.pos.clone().setY(2.3), `+${Math.round(h.hp - before)}`, 'heal')
+      this.popWorld(h.pos.clone().setY(2.3), `+${Math.round(h.hp - before)} MÁU`, 'heal')
     }
   }
 
@@ -1471,7 +1471,7 @@ export class Game {
         this.consumeItem(it)
         h.power = Math.min(h.maxPower, h.power + (it.value ?? 50))
         this.audio.play('reward')
-        this.popWorld(h.pos.clone().setY(2.3), 'POWER UP!', 'nova')
+        this.popWorld(h.pos.clone().setY(2.3), '+NĂNG LƯỢNG!', 'nova')
         break
       case 'upgrade':
         this.consumeItem(it)
@@ -1486,7 +1486,7 @@ export class Game {
         this.heal(h.stats.maxHp)
         h.power = h.maxPower
         this.fx.ring(it.pos.clone(), '#6dff9e', 0.5, 4, 0.5)
-        this.ui.banner('FULLY RESTORED!', 'HP and Power refilled', 'green')
+        this.ui.banner('HỒI PHỤC HOÀN TOÀN!', 'Đã làm đầy Máu và Năng Lượng', 'green')
         it.obj.traverse(o => {
           if ((o as THREE.Mesh).userData?.water) ((o as THREE.Mesh).material as THREE.MeshBasicMaterial) = new THREE.MeshBasicMaterial({ color: '#2a4a3a' })
         })
@@ -1516,7 +1516,7 @@ export class Game {
         }
         const talk = () => {
           this.input.unlockPointer()
-          this.ui.openDialogue(`${c.name} RESCUED!`, `${c.power}  -  Assist: ${c.assist}`, already ? `"${c.name.split(' ')[0]} again? Thanks for the save! Take these credits."` : `"${c.line}"`, c.color, () => this.resume())
+          this.ui.openDialogue(`ĐÃ GIẢI CỨU ${c.name.toUpperCase()}!`, `${c.power}  -  Hỗ trợ: ${c.assist}`, already ? `"Lại là ${c.name.split(' ')[0]} đây! Cảm ơn vì đã cứu mình lần nữa nhé! Cầm lấy số Tín Chỉ này đi."` : `"${c.line}"`, c.color, () => this.resume())
         }
         // Drop to the floor, get back up, then dance; the dialogue waits for the celebration.
         if (actor) this.rescueSeqs.push({ seq: new RescueSequence(actor, DANCE_FOR[c.id]), pos: it.pos.clone(), color: c.color, talk })
@@ -1531,7 +1531,7 @@ export class Game {
         if (!this.save.data.lore.includes(page.id)) this.save.update({ lore: [...this.save.data.lore, page.id] })
         this.audio.play('reward')
         this.input.unlockPointer()
-        this.ui.openDialogue(page.title, `Lore page ${LORE.indexOf(page) + 1} of ${LORE.length}`, page.text, '#c58cff', () => this.resume())
+        this.ui.openDialogue(page.title, `Trang nhật ký ${LORE.indexOf(page) + 1} / ${LORE.length}`, page.text, '#c58cff', () => this.resume())
         break
       }
       case 'portal':
@@ -1556,7 +1556,7 @@ export class Game {
       case 'npc': {
         const c = CLASSMATE_BY_ID[it.data as ClassmateId]
         this.input.unlockPointer()
-        this.ui.openDialogue(c.name, `${c.power}  -  Permanent assist: ${c.assist}`, `"${c.line}"`, c.color, () => this.resume())
+        this.ui.openDialogue(c.name, `${c.power}  -  Hỗ trợ vĩnh viễn: ${c.assist}`, `"${c.line}"`, c.color, () => this.resume())
         break
       }
     }
@@ -1570,7 +1570,7 @@ export class Game {
     let choices = roll()
     if (choices.length === 0) {
       r.credits += 25
-      this.ui.toast('All upgrades maxed! +25 credits')
+      this.ui.toast('Đã tối đa mọi nâng cấp! +25 Tín Chỉ')
       return
     }
     this.audio.play('reward')
@@ -1602,7 +1602,7 @@ export class Game {
     const pool = RELICS.filter(x => !owned.has(x.id))
     if (!pool.length) {
       r.credits += 60
-      this.ui.toast('Relic vault empty: +60 credits')
+      this.ui.toast('Kho Thánh Vật đã trống: +60 Tín Chỉ')
       return
     }
     const fresh = pool.filter(x => !seen.has(x.id))
@@ -1749,11 +1749,11 @@ export class Game {
       prompt: this.focus ? this.focus.prompt : null,
       method: this.input.method,
       inRun: !!r,
-      wing: r ? `F${r.floor}/${FLOOR_COUNT}  ${WINGS[r.plan.wing].short}` : 'Hall of Origins',
-      roomLabel: r && room ? roomLabel(room, r.cleared.has(room.id), r.floor) : 'Safe Zone  -  Head north to the Vault Portal',
+      wing: r ? `T${r.floor}/${FLOOR_COUNT}  ${WINGS[r.plan.wing].short}` : 'Sảnh Khởi Nguồn',
+      roomLabel: r && room ? roomLabel(room, r.cleared.has(room.id), r.floor) : 'Khu An Toàn  -  Tiến về phía Bắc tới Cổng Tháp Ngục',
       progress: r ? { at: pathIndex, total: r.plan.path.length - 1, boss: r.bossDefeated } : null,
       enemiesLeft: r && r.active !== null ? enemiesLeft : 0,
-      wave: r && r.active !== null && room && room.waves > 1 ? `Wave ${r.wave + 1}/${room.waves}` : '',
+      wave: r && r.active !== null && room && room.waves > 1 ? `Đợt ${r.wave + 1}/${room.waves}` : '',
       time: r?.time ?? 0,
       build: r ? Object.entries(r.build.upgrades).map(([id, n]) => ({ icon: UPGRADE_BY_ID[id as UpgradeId].icon, name: UPGRADE_BY_ID[id as UpgradeId].name, n: n ?? 1, rarity: UPGRADE_BY_ID[id as UpgradeId].rarity })) : [],
       relics: r ? r.build.relics.map(id => RELIC_BY_ID[id].name) : [],
@@ -1771,10 +1771,10 @@ export class Game {
 
 function roomLabel(room: RoomPlan, cleared: boolean, floor: number): string {
   const names: Record<RoomPlan['kind'], string> = {
-    entrance: 'Entry Stairwell', combat: 'Corrupted Room', elite: 'Elite Chamber', boss: BOSSES[FLOOR_BOSS[floor - 1] ?? 'proctor'].arena,
-    exit: floor < FLOOR_COUNT ? 'Descent Portal' : 'Exit Portal',
-    heal: "Nurse's Office", shop: 'School Store', rescue: 'Detention Cell', challenge: 'Challenge Room', lore: 'Archive Nook', treasure: 'Trophy Vault',
+    entrance: 'Cầu Thang Vào Tầng', combat: 'Phòng Bị Tha Hóa', elite: 'Phòng Tinh Anh', boss: BOSSES[FLOOR_BOSS[floor - 1] ?? 'proctor'].arena,
+    exit: floor < FLOOR_COUNT ? 'Cổng Xuống Tầng Dưới' : 'Cổng Thoát Hiểm',
+    heal: 'Phòng Y Tế', shop: 'Căng Tin Học Viện', rescue: 'Phòng Giam Kỷ Luật', challenge: 'Phòng Thử Thách', lore: 'Góc Lưu Trữ', treasure: 'Kho Báu Học Viện',
   }
-  const danger = room.danger ? `  -  Danger ${'I'.repeat(room.danger)}` : ''
-  return `${names[room.kind]}${COMBAT_KINDS.has(room.kind) ? (cleared ? '  -  Cleared' : danger) : ''}`
+  const danger = room.danger ? `  -  Nguy hiểm ${'I'.repeat(room.danger)}` : ''
+  return `${names[room.kind]}${COMBAT_KINDS.has(room.kind) ? (cleared ? '  -  Đã dọn sạch' : danger) : ''}`
 }

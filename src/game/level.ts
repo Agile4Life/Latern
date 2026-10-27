@@ -99,40 +99,40 @@ type DecorPanel = { tex: THREE.Texture; w: number; h: number; y: number }
 function wallPanels(src: LevelSource): DecorPanel[] {
   const p = src.palette
   if (src.kind === 'hub') return [
-    { tex: bannerTexture('SUPER', '#2d3fae', '#ffd35c'), w: 1.2, h: 2.4, y: 1.9 },
-    { tex: bannerTexture('HERO ACADEMY', '#e8384f', '#fff4d8'), w: 1.2, h: 2.4, y: 1.9 },
-    { tex: posterTexture('BE THE\nHERO', '#2d3fae'), w: 1.1, h: 1.55, y: 1.6 },
+    { tex: bannerTexture('SIÊU PHÀM', '#2d3fae', '#ffd35c'), w: 1.2, h: 2.4, y: 1.9 },
+    { tex: bannerTexture('HỌC VIỆN ANH HÙNG', '#e8384f', '#fff4d8'), w: 1.2, h: 2.4, y: 1.9 },
+    { tex: posterTexture('HÃY LÀ\nANH HÙNG', '#2d3fae'), w: 1.1, h: 1.55, y: 1.6 },
   ]
   switch (p.id) {
     case 'classrooms': return [
       { tex: chalkboardTexture(), w: 1.9, h: 0.95, y: 1.6 },
       { tex: lockerTexture('#5b6ee1'), w: 1.9, h: 1.9, y: 1.0 },
-      { tex: posterTexture('NO FLYING\nIN HALLS', '#ffd35c'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: posterTexture('CẤM BAY\nỞ HÀNH LANG', '#ffd35c'), w: 1.0, h: 1.4, y: 1.6 },
     ]
     case 'labs': return [
-      { tex: posterTexture('DANGER:\nSENTIENT', '#6dff9e'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: posterTexture('NGUY HIỂM:\nCÓ TRI GIÁC', '#6dff9e'), w: 1.0, h: 1.4, y: 1.6 },
       { tex: chalkboardTexture(), w: 1.9, h: 0.95, y: 1.6 },
       { tex: lockerTexture('#3d6e73'), w: 1.9, h: 1.9, y: 1.0 },
     ]
     case 'trophy': return [
-      { tex: bannerTexture('CHAMPS 1987', '#c98f3a', '#1b1838'), w: 1.1, h: 2.2, y: 1.9 },
-      { tex: bannerTexture('GO SUPER', '#e8384f', '#ffcf4d'), w: 1.1, h: 2.2, y: 1.9 },
-      { tex: posterTexture('HALL OF\nFAME', '#ffcf4d'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: bannerTexture('VÔ ĐỊCH 1987', '#c98f3a', '#1b1838'), w: 1.1, h: 2.2, y: 1.9 },
+      { tex: bannerTexture('TIẾN LÊN!', '#e8384f', '#ffcf4d'), w: 1.1, h: 2.2, y: 1.9 },
+      { tex: posterTexture('ĐẠI SẢNH\nDANH VỌNG', '#ffcf4d'), w: 1.0, h: 1.4, y: 1.6 },
     ]
     case 'library': return [
       { tex: booksTexture(), w: 1.95, h: 1.95, y: 1.05 },
       { tex: booksTexture(), w: 1.95, h: 1.95, y: 1.05 },
-      { tex: posterTexture('SHHH!\nTHEY HEAR', '#c58cff'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: posterTexture('SUỴT!\nCHÚNG NGHE', '#c58cff'), w: 1.0, h: 1.4, y: 1.6 },
     ]
     case 'stacks': return [
       { tex: booksTexture(), w: 1.95, h: 1.95, y: 1.05 },
-      { tex: bannerTexture('RETURN ALL BOOKS', '#1c4a45', '#7effd4'), w: 1.1, h: 2.2, y: 1.9 },
-      { tex: posterTexture('SILENCE\nIS LAW', '#7effd4'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: bannerTexture('TRẢ SÁCH ĐÚNG HẠN', '#1c4a45', '#7effd4'), w: 1.1, h: 2.2, y: 1.9 },
+      { tex: posterTexture('IM LẶNG\nLÀ LUẬT', '#7effd4'), w: 1.0, h: 1.4, y: 1.6 },
     ]
     case 'gym': return [
-      { tex: bannerTexture('GRAVITY OPTIONAL', '#2f5d9f', '#7ef9ff'), w: 1.1, h: 2.2, y: 1.9 },
+      { tex: bannerTexture('BẤT CHẤP TRỌNG LỰC', '#2f5d9f', '#7ef9ff'), w: 1.1, h: 2.2, y: 1.9 },
       { tex: lockerTexture('#e8384f'), w: 1.9, h: 1.9, y: 1.0 },
-      { tex: posterTexture('DODGE!\nDUCK! DIVE!', '#ff6b8b'), w: 1.0, h: 1.4, y: 1.6 },
+      { tex: posterTexture('NÉ ĐÒN!\nCÚI! LƯỚT!', '#ff6b8b'), w: 1.0, h: 1.4, y: 1.6 },
     ]
     default: return []
   }

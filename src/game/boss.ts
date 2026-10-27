@@ -208,6 +208,7 @@ export class Boss implements BossActor {
       if (this.t < 1.6 && this.t + dt >= 1.6) {
         ctx.audio.play('roar')
         ctx.shake(0.5)
+        ctx.say('GIỜ THI BẮT ĐẦU!')
       }
       if (this.t <= 0) {
         this.state = 'idle'
@@ -219,6 +220,7 @@ export class Boss implements BossActor {
       if (this.t <= 0) {
         this.state = 'idle'
         this.t = 0.6
+        ctx.say(this.phase === 2 ? 'THI GIỮA KỲ!' : 'BÀI THI CUỐI CÙNG!')
         for (let i = 0; i < 2; i += 1) {
           const a = Math.random() * Math.PI * 2
           ctx.spawn('swarm', this.pos.x + Math.cos(a) * 4, this.pos.z + Math.sin(a) * 4)
@@ -300,6 +302,7 @@ export class Boss implements BossActor {
             ctx.spawn(type, this.pos.x + Math.cos(a) * 3.5, this.pos.z + Math.sin(a) * 3.5)
           })
           ctx.fx.ring(this.pos.clone(), '#c58cff', 1, 6, 0.5)
+          ctx.say('ĐÌNH CHỈ THI!')
           this.toIdle()
         }
         break

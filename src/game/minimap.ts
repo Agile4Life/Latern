@@ -5,17 +5,17 @@ import { TILE } from './dungeon'
 export type MapState = { discovered: Set<number>; visited: Set<number>; cleared: Set<number>; current: number; bossDefeated: boolean }
 
 export const ROOM_ICON: Record<RoomPlan['kind'], { glyph: string; color: string; label: string }> = {
-  entrance: { glyph: 'S', color: '#b7c4ff', label: 'Entry stairwell' },
-  combat: { glyph: '', color: '#ff9aa9', label: 'Combat' },
-  elite: { glyph: 'E', color: '#ff4f6d', label: 'Elite encounter' },
-  boss: { glyph: 'B', color: '#ff2d55', label: 'The Proctor' },
-  exit: { glyph: 'X', color: '#7ef9ff', label: 'Exit portal' },
-  heal: { glyph: '+', color: '#6dff9e', label: 'Healing fountain' },
-  shop: { glyph: '$', color: '#ffd35c', label: 'School store' },
-  rescue: { glyph: '!', color: '#7ef9ff', label: 'Trapped classmate' },
-  challenge: { glyph: 'C', color: '#ff7a45', label: 'Challenge (relic)' },
-  lore: { glyph: '?', color: '#c58cff', label: 'Lore page' },
-  treasure: { glyph: 'T', color: '#ffcf4d', label: 'Treasure' },
+  entrance: { glyph: 'S', color: '#b7c4ff', label: 'Cầu thang vào tầng' },
+  combat: { glyph: '', color: '#ff9aa9', label: 'Phòng giao chiến' },
+  elite: { glyph: 'E', color: '#ff4f6d', label: 'Quái Tinh Anh' },
+  boss: { glyph: 'B', color: '#ff2d55', label: 'Phòng Trùm' },
+  exit: { glyph: 'X', color: '#7ef9ff', label: 'Cổng thoát hiểm' },
+  heal: { glyph: '+', color: '#6dff9e', label: 'Đài phun hồi phục' },
+  shop: { glyph: '$', color: '#ffd35c', label: 'Căng tin học viện' },
+  rescue: { glyph: '!', color: '#7ef9ff', label: 'Bạn học bị giam' },
+  challenge: { glyph: 'C', color: '#ff7a45', label: 'Phòng thử thách (Thánh Vật)' },
+  lore: { glyph: '?', color: '#c58cff', label: 'Trang nhật ký' },
+  treasure: { glyph: 'T', color: '#ffcf4d', label: 'Kho báu' },
 }
 
 const center = (r: RoomPlan) => ({ x: r.x0 + r.w / 2, y: r.y0 + r.h / 2 })

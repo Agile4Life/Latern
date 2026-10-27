@@ -20,7 +20,7 @@ import { glow } from './toon'
  */
 
 const COLORS: Record<HazardType, string> = { chalk: '#fff4c2', spark: '#7ef9ff', tomes: '#c58cff', vent: '#7ef9ff', acid: '#6dff9e', laser: '#ff4f6d' }
-export const HAZARD_NAMES: Record<HazardType, string> = { chalk: 'Chalk Storm', spark: 'Tesla Coil', tomes: 'Falling Tomes', vent: 'Grav Vent', acid: 'Acid Spill', laser: 'Trophy Laser' }
+export const HAZARD_NAMES: Record<HazardType, string> = { chalk: 'Bão Phấn Điện', spark: 'Cuộn Tesla', tomes: 'Sách Ma Rơi', vent: 'Hố Phản Trọng Lực', acid: 'Vũng Axit', laser: 'Tia Laser Bảo Vệ' }
 
 export type HazardHit = (amount: number, from: THREE.Vector3, knock: number) => void
 

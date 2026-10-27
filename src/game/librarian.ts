@@ -206,7 +206,7 @@ export class Librarian implements BossActor {
       if (this.t < 1.7 && this.t + dt >= 1.7) {
         ctx.audio.play('libRoar')
         ctx.shake(0.5)
-        ctx.say('SHHH...')
+        ctx.say('SUỴT...')
       }
       if (this.t <= 0) {
         this.state = 'idle'
@@ -218,7 +218,7 @@ export class Librarian implements BossActor {
       if (this.t <= 0) {
         this.state = 'idle'
         this.t = 0.6
-        ctx.say(this.phase === 2 ? 'SILENCE!' : 'CLOSING TIME!')
+        ctx.say(this.phase === 2 ? 'YÊN LẶNG!' : 'GIỜ ĐÓNG CỬA!')
         for (let i = 0; i < 2; i += 1) {
           const a = Math.random() * Math.PI * 2
           ctx.spawn('swarm', this.pos.x + Math.cos(a) * 4, this.pos.z + Math.sin(a) * 4)
@@ -283,7 +283,7 @@ export class Librarian implements BossActor {
           this.emitWave(ctx, 0)
           if (double) this.emitWave(ctx, 0.6)
           ctx.audio.play('shush')
-          ctx.say('SHHH!')
+          ctx.say('SUỴT!')
           ctx.shake(0.35)
           this.toIdle(double ? 0.9 : 0.4)
         }
@@ -298,7 +298,7 @@ export class Librarian implements BossActor {
             ctx.spawn(type, this.pos.x + Math.cos(a) * 3.5, this.pos.z + Math.sin(a) * 3.5)
           })
           ctx.fx.ring(this.pos.clone(), '#c58cff', 1, 6, 0.5)
-          ctx.say('OVERDUE!')
+          ctx.say('QUÁ HẠN!')
           this.toIdle()
         }
         break

@@ -32,7 +32,7 @@ const HUB_ROWS = [
 ]
 
 export const HUB_PALETTE: WingDef = {
-  id: 'hub', name: 'Hall of Origins', short: 'Hall of Origins', tagline: 'Where every Super hero begins.',
+  id: 'hub', name: 'Sảnh Khởi Nguồn', short: 'Sảnh Khởi Nguồn', tagline: 'Nơi mọi Siêu Anh Hùng bắt đầu.',
   floorA: '#3d4488', floorB: '#343a78', corridor: '#2a2f60', wall: '#2a2650', wallTop: '#ffd35c', trim: '#ffd35c',
   fog: '#141233', sky: '#b7c4ff', ground: '#2a1f3a', lights: ['#ffd35c', '#7ef9ff'], cover: 'desk',
   hazards: {}, enemies: {}, favours: [],
@@ -111,9 +111,9 @@ export function dressHub(level: Level, markers: HubMarkers): HubProps {
     c.fillStyle = '#1b1838'
     c.fillRect(0, 0, 512, 72)
     c.fillStyle = '#c58cff'
-    c.font = '54px Bangers, Impact, sans-serif'
+    c.font = '800 42px "Be Vietnam Pro", Bangers, Impact, sans-serif'
     c.textAlign = 'center'
-    c.fillText('THE UNDERHALL  -  KEEP OUT', 256, 56)
+    c.fillText('THÁP NGỤC  -  CẤM VÀO', 256, 52)
   }), toneMapped: false }), 0, 5.4, 0.46, arch)
   void sign
   outline(arch, 0.04)
@@ -128,9 +128,9 @@ export function dressHub(level: Level, markers: HubMarkers): HubProps {
       c.fillStyle = color
       c.fillRect(0, 0, 290, 190)
       c.fillStyle = '#fff4d8'
-      c.font = '40px Bangers, Impact, sans-serif'
+      c.font = '800 32px "Be Vietnam Pro", Bangers, Impact, sans-serif'
       c.textAlign = 'center'
-      c.fillText(title, 145, 52)
+      c.fillText(title, 145, 50)
       c.fillStyle = 'rgba(255,255,255,0.8)'
       for (let i = 0; i < 4; i += 1) c.fillRect(30, 80 + i * 24, 150 + ((i * 37) % 80), 8)
     }), toneMapped: false }), 0, 1.9, 0.13, b)
@@ -143,9 +143,9 @@ export function dressHub(level: Level, markers: HubMarkers): HubProps {
     g.add(b)
     level.circles.push({ x: pos.x, z: pos.z, r: 1.1 })
   }
-  board(markers.B.clone().setX(markers.B.x - 0.75), Math.PI / 2, 'HERO DEVELOPMENT', '#2d3fae')
-  board(markers.N.clone().setX(markers.N.x - 0.75), Math.PI / 2, 'NOTICE BOARD', '#e8384f')
-  board(markers.R.clone().setX(markers.R.x + 0.75), -Math.PI / 2, 'RESCUE WALL', '#3f8f5f')
+  board(markers.B.clone().setX(markers.B.x - 0.75), Math.PI / 2, 'BẢNG RÈN LUYỆN', '#2d3fae')
+  board(markers.N.clone().setX(markers.N.x - 0.75), Math.PI / 2, 'BẢNG THÔNG BÁO', '#e8384f')
+  board(markers.R.clone().setX(markers.R.x + 0.75), -Math.PI / 2, 'TƯỜNG GIẢI CỨU', '#3f8f5f')
   // Codex: glass trophy case with relic silhouettes.
   const codex = new THREE.Group()
   mesh(new THREE.BoxGeometry(1.4, 1.0, 3.2), toon('#4a2f1d'), 0, 0.5, 0, codex)
