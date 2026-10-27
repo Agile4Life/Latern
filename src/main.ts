@@ -35,7 +35,7 @@ async function boot(): Promise<void> {
   try {
     renderer = new Renderer(canvas, save.data.quality)
   } catch {
-    if (bootEl) bootEl.innerHTML = '<div class="boot-card"><h1>WebGL unavailable</h1><p>Super Dungeon needs a browser with WebGL enabled. Try an up-to-date Chrome, Edge, Firefox or Safari.</p></div>'
+    if (bootEl) bootEl.innerHTML = '<div class="boot-card"><h1>Không hỗ trợ WebGL</h1><p>Tháp Ngục Vô Tận cần trình duyệt bật WebGL. Hãy thử Chrome, Edge, Firefox hoặc Safari mới nhất.</p></div>'
     return
   }
   mark('renderer')
@@ -49,6 +49,17 @@ async function boot(): Promise<void> {
   mark('ui')
   const game = new Game(renderer, input, audio, save, ui)
   mark('game')
+  if (import.meta.env.DEV) {
+    try {
+      const [{ registerGameTuning }, { tuning }] = await Promise.all([
+        import('../scripts/manus-tuning/adapter.js'),
+        import('./game/tuning'),
+      ])
+      await registerGameTuning(tuning)
+    } catch {
+      /* dev tuning bridge optional */
+    }
+  }
   ui.onPlay = () => {
     audio.unlock()
     game.play()

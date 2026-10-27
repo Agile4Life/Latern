@@ -1,18 +1,20 @@
 import * as THREE from 'three'
+import { CONFIG } from './config'
 import type { Level } from './level'
+
+const C = CONFIG.camera
 
 /**
  * Over-the-shoulder follow camera. Mouse/stick yaw + pitch orbit a pivot above the hero's right
  * shoulder; the boom pulls in when walls get in the way, and trauma-based shake sells impacts.
  */
 export class ShoulderCamera {
-  readonly camera = new THREE.PerspectiveCamera(62, 1, 0.1, 160)
+  readonly camera = new THREE.PerspectiveCamera(C.fov, 1, 0.1, 160)
   yaw = Math.PI
   pitch = 0.32
-  private dist = 5.4
-  private boom = 5.4
-  private shoulder = 0.85
-  private readonly height = 1.75
+  private boom: number = C.distance
+  private shoulder: number = C.shoulder
+  private readonly height: number = C.height
   private trauma = 0
   private readonly pivot = new THREE.Vector3()
   private readonly desired = new THREE.Vector3()
@@ -24,7 +26,7 @@ export class ShoulderCamera {
   zoom = 1
   /** 0..1 sprint amount: widens the FOV slightly for a sense of speed. */
   sprint = 0
-  private fovNow = 62
+  private sprintFov = 0
 
   forward(out = new THREE.Vector3()): THREE.Vector3 {
     return out.set(-Math.sin(this.yaw), 0, -Math.cos(this.yaw))
@@ -41,16 +43,17 @@ export class ShoulderCamera {
 
   update(target: THREE.Vector3, look: { x: number; y: number }, dt: number, level?: Level): void {
     this.yaw -= look.x
-    this.pitch = THREE.MathUtils.clamp(this.pitch + look.y, -0.2, 1.05)
+    this.pitch = THREE.MathUtils.clamp(this.pitch + look.y, C.minPitch, C.maxPitch)
     const f = this.forward()
     const r = this.right()
     this.pivot.copy(target).addScaledVector(r, this.shoulder)
     this.pivot.y += this.height
-    if (!this.initialized) {
+    const snap = !this.initialized
+    if (snap) {
       this.smoothPivot.copy(this.pivot)
       this.initialized = true
-    } else this.smoothPivot.lerp(this.pivot, 1 - Math.exp(-dt * 18))
-    const want = this.dist * this.zoom
+    } else this.smoothPivot.lerp(this.pivot, 1 - Math.exp(-dt * C.follow))
+    const want = C.distance * this.zoom
     const cp = Math.cos(this.pitch)
     const sp = Math.sin(this.pitch)
     this.desired.copy(this.smoothPivot).addScaledVector(f, -want * cp)
@@ -58,17 +61,18 @@ export class ShoulderCamera {
     let clear = 1
     if (level) clear = level.cameraClear(this.smoothPivot, this.desired)
     const boomTarget = Math.max(0.9, want * clear)
-    // Pull in instantly, ease back out.
-    this.boom = boomTarget < this.boom ? boomTarget : this.boom + (boomTarget - this.boom) * (1 - Math.exp(-dt * 4))
+    // Pull in instantly when blocked or snapping; ease back out when recovering from wall occlusion.
+    this.boom = boomTarget < this.boom || snap || !level ? boomTarget : this.boom + (boomTarget - this.boom) * (1 - Math.exp(-dt * C.follow))
     this.camera.position.copy(this.smoothPivot).addScaledVector(f, -this.boom * cp)
     this.camera.position.y += this.boom * sp
     this.look.copy(this.smoothPivot).addScaledVector(f, 4)
     this.look.y -= 0.6
     this.camera.lookAt(this.look)
-    const fov = 62 + (this.reducedMotion ? 0 : this.sprint * 7)
-    if (Math.abs(fov - this.fovNow) > 0.01) {
-      this.fovNow += (fov - this.fovNow) * (1 - Math.exp(-dt * 6))
-      this.camera.fov = this.fovNow
+    const sprintTarget = this.reducedMotion ? 0 : this.sprint * 7
+    this.sprintFov += (sprintTarget - this.sprintFov) * (1 - Math.exp(-dt * 6))
+    const fov = C.fov + (Math.abs(this.sprintFov) < 1e-3 ? 0 : this.sprintFov)
+    if (Math.abs(fov - this.camera.fov) > 1e-4) {
+      this.camera.fov = fov
       this.camera.updateProjectionMatrix()
     }
     if (this.trauma > 0) {
@@ -80,3 +84,5 @@ export class ShoulderCamera {
     }
   }
 }
+
+export { ShoulderCamera as CameraRig }

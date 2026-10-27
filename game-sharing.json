@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "title": "Super Dungeon",
-  "description": "A 3D superhero high school roguelike. After curfew, fight down two seeded Underhall floors, rescue classmates, pass The Proctor's exam and silence The Librarian of the Stacks.",
+  "title": "Tháp Ngục Vô Tận",
+  "description": "Game hành động roguelike 3D tại học viện siêu anh hùng. Sau giờ giới nghiêm, chiến đấu qua hai tầng Hầm Ngục, giải cứu bạn học, vượt kỳ thi của Giám Thị và đối đầu Thủ Thư Tàng Kinh Các.",
   "defaultCaptions": {
-    "x": "Curfew was an hour ago and my school just turned into a two-floor dungeon. The Librarian of the Stacks is NOT happy. Playing Super Dungeon.",
-    "facebook": "Super Dungeon is a 3D superhero high school roguelike. Punch, dash and nova through two seeded dungeon floors, pass The Proctor's final exam, then descend into the Stacks Below to face The Librarian.",
-    "reddit": "Super Dungeon is a browser 3D third-person roguelike set in a superhero high school: two seeded dungeon floors, upgrade drafts, classmate rescues and two multi-phase bosses, The Proctor and The Librarian of the Stacks.",
-    "discord": "Can you get past The Proctor and The Librarian of the Stacks? Super Dungeon is a superhero high school dungeon roguelike you can play in the browser."
+    "x": "Đã qua giờ giới nghiêm và ngôi trường vừa biến thành hầm ngục hai tầng. Thủ Thư Tàng Kinh Các đang rất giận dữ. Đang chơi Tháp Ngục Vô Tận.",
+    "facebook": "Tháp Ngục Vô Tận là game hành động roguelike 3D tại học viện siêu anh hùng. Tung đòn, lướt và bùng nổ qua hai tầng hầm ngục, vượt kỳ thi cuối của Giám Thị rồi tiến xuống Tàng Kinh Các đối đầu Thủ Thư.",
+    "reddit": "Tháp Ngục Vô Tận là game roguelike 3D góc nhìn thứ ba trên trình duyệt lấy bối cảnh học viện siêu anh hùng: hai tầng hầm ngục ngẫu nhiên, chọn nâng cấp, giải cứu bạn học và hai trùm nhiều giai đoạn — Giám Thị và Thủ Thư Tàng Kinh Các.",
+    "discord": "Bạn có vượt qua được Giám Thị và Thủ Thư Tàng Kinh Các không? Tháp Ngục Vô Tận là game roguelike hầm ngục học viện siêu anh hùng chơi ngay trên trình duyệt."
   },
   "assets": {
     "og": "assets/share/og.png",

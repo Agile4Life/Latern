@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import compression from 'compression'
 import { loadEnv, type Plugin } from 'vite'
 import { defineConfig } from 'vitest/config'
+import { manusGameTuning } from './scripts/manus-tuning/vite.mjs'
 
 // Relative base keeps production output portable; the Session owns preview HOST/PORT.
 
@@ -51,7 +52,7 @@ export default defineConfig(({ mode }) => {
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid PORT')
   return {
     base: './',
-    plugins: [devCompression(), lightDeps()],
+    plugins: [manusGameTuning(), devCompression(), lightDeps()],
     // Minify pre-bundled dependencies in dev (three.js drops from ~5.8 MB to ~0.7 MB).
     optimizeDeps: { rolldownOptions: { output: { minify: true } } },
     server: {

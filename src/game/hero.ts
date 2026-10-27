@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 import { makeHeroView, type HeroView } from './actors'
+import { CONFIG } from './config'
 import type { Level } from './level'
 import { BASE_STATS, type HeroStats } from './rules'
+import { tuning } from './tuning'
 
 export type HeroIntent = {
   /** World-space move vector (length ≤ 1). */
@@ -42,9 +44,10 @@ export class Hero {
   readonly pos = new THREE.Vector3()
   readonly prev = new THREE.Vector3()
   readonly impulse = new THREE.Vector3()
+  readonly velocity = new THREE.Vector3()
   facing = Math.PI
   stats: HeroStats = { ...BASE_STATS }
-  hp = 100
+  hp = CONFIG.run.baseHp
   power = 20
   readonly maxPower = 100
   alive = true
@@ -72,12 +75,23 @@ export class Hero {
   /** True while sprint is held and the hero is actually running (not attacking/dashing). */
   sprinting = false
   private stride = 0
-  private speedNow = 0
+  speedNow = 0
   private noPowerCd = 0
   private readonly tmp = new THREE.Vector3()
 
-  constructor() {
-    this.rig = makeHeroView()
+  constructor(rig?: HeroView) {
+    this.rig =
+      rig ??
+      (typeof document !== 'undefined'
+        ? makeHeroView()
+        : ({
+            root: new THREE.Group(),
+            body: new THREE.Group(),
+            handL: new THREE.Object3D(),
+            handR: new THREE.Object3D(),
+            aura: new THREE.Object3D(),
+            barrier: new THREE.Mesh(),
+          } as unknown as HeroView))
   }
 
   get shieldReady(): boolean {
@@ -111,8 +125,9 @@ export class Hero {
 
     // Dash (highest priority, cancels attacks).
     if (intent.dash && this.dashCd <= 0 && this.dashT <= 0) {
+      tuning.activate('dash')
       this.dashDir.copy(intent.move.lengthSq() > 0.01 ? intent.move : this.tmp.set(-Math.sin(this.facing), 0, -Math.cos(this.facing))).setY(0).normalize()
-      this.dashT = 0.17
+      this.dashT = CONFIG.player.dashTime
       this.dashCd = this.stats.dashCooldown
       this.iframes = Math.max(this.iframes, 0.3)
       this.attackT = 0
@@ -121,11 +136,12 @@ export class Hero {
       events.push({ type: 'dash', dir: this.dashDir.clone() })
     }
     // Jump: short input buffer + coyote time so presses just before landing still count.
-    this.jumpBuf = intent.jump ? 0.14 : Math.max(0, this.jumpBuf - dt)
+    this.jumpBuf = intent.jump ? CONFIG.player.jumpBuffer : Math.max(0, this.jumpBuf - dt)
     const grounded = this.y <= 0 && this.vy <= 0
-    this.coyote = grounded ? 0.1 : Math.max(0, this.coyote - dt)
+    this.coyote = grounded ? CONFIG.player.coyoteTime : Math.max(0, this.coyote - dt)
     if (this.jumpBuf > 0 && this.coyote > 0 && this.dashT <= 0) {
-      this.vy = JUMP_V
+      tuning.activate('jump')
+      this.vy = CONFIG.player.jumpSpeed || JUMP_V
       this.y = Math.max(this.y, 0.001)
       this.jumpBuf = 0
       this.coyote = 0
@@ -176,22 +192,22 @@ export class Hero {
     }
 
     // Movement.
-    let speed = this.stats.moveSpeed * this.slow
+    const statScale = BASE_STATS.moveSpeed > 0 ? this.stats.moveSpeed / BASE_STATS.moveSpeed : 1
     this.sprinting = intent.sprint && intent.move.lengthSq() > 0.25 && this.attackT <= 0 && this.boltPose <= 0 && this.dashT <= 0
-    if (this.sprinting) speed *= SPRINT_MULT
+    let speed = (this.sprinting ? CONFIG.player.sprintSpeed : CONFIG.player.walkSpeed) * statScale * this.slow
     if (this.attackT > 0) speed *= 0.3
     if (this.boltPose > 0) speed *= 0.6
     const v = this.tmp.set(0, 0, 0)
     if (this.dashT > 0) {
       this.dashT -= dt
-      v.copy(this.dashDir).multiplyScalar(23)
+      v.copy(this.dashDir).multiplyScalar(CONFIG.player.dashSpeed)
     } else {
       v.copy(intent.move).multiplyScalar(speed)
       if (intent.move.lengthSq() > 0.01 && this.attackT <= 0 && this.boltPose <= 0) {
         const target = Math.atan2(-intent.move.x, -intent.move.z)
         let d = target - this.facing
         d = Math.atan2(Math.sin(d), Math.cos(d))
-        this.facing += d * Math.min(1, dt * 16)
+        this.facing += d * Math.min(1, dt * CONFIG.player.turnSpeed)
       }
     }
     v.add(this.impulse)
@@ -202,13 +218,14 @@ export class Hero {
     this.stride += this.speedNow * dt
     // Vertical (jumps and vent launches).
     if (this.y > 0 || this.vy > 0) {
-      this.vy -= GRAVITY * dt
+      this.vy -= (CONFIG.player.gravity || GRAVITY) * dt
       this.y = Math.max(0, this.y + this.vy * dt)
       if (this.y === 0) {
         events.push({ type: 'land', impact: -this.vy })
         this.vy = 0
       }
     }
+    this.velocity.set((this.pos.x - this.prev.x) / dt, this.vy, (this.pos.z - this.prev.z) / dt)
     return events
   }
 

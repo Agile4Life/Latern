@@ -70,7 +70,7 @@ async function main(): Promise<void> {
   if (cam === 'front' || cam === 'high') key.position.set(3, 6, -4)
   await renderer.warm(scene, scene, camera)
   renderer.render(scene, camera)
-  document.getElementById('l')!.textContent = `${vs.join(' ')} | ${clip}`
+  document.getElementById('l')!.textContent = `Nhân vật: ${vs.join(' ')} | Hoạt ảnh: ${clip}`
   ;(window as unknown as { __viewerReady: boolean }).__viewerReady = true
   const loop = (): void => {
     renderer.render(scene, camera)
@@ -82,6 +82,6 @@ async function main(): Promise<void> {
   loop()
 }
 main().catch(e => {
-  document.getElementById('l')!.textContent = 'ERROR ' + String(e?.stack ?? e)
+  document.getElementById('l')!.textContent = 'LỖI: ' + String(e?.stack ?? e)
   ;(window as unknown as { __viewerError: string }).__viewerError = String(e?.stack ?? e)
 })
