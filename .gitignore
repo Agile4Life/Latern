@@ -1,0 +1,17 @@
+# Archives
+Thap-Nguc-Vo-Tan-Agent-Handoff.zip
+
+# Dependencies & Build
+node_modules/
+dist/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+.manus-starter-init.json
+.manus-webdev/
+
+# OS / Editor
+.DS_Store
+Thumbs.db

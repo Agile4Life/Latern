@@ -1,0 +1,381 @@
+# Danh mục ảnh — bộ nguồn Super Dungeon
+
+Danh sách này được tạo từ cây `showcase-source/`; mọi ảnh nguồn vẫn nằm nguyên ở đường dẫn được liệt kê. Có **342 ảnh raster** trong ZIP nguồn: 162 JPG, 92 WebP và 88 PNG. Các ảnh không phải ảnh raster như SVG được liệt kê riêng ở cuối.
+
+## Nhóm ảnh
+
+| Nhóm đường dẫn | Số ảnh | Vai trò tiêu biểu |
+| --- | ---: | --- |
+| `showcase-source/assets/source/` | 214 | Texture/model input và sprite nguồn. |
+| `showcase-source/public/` | 92 | Texture, nhân vật, vật liệu, hiệu ứng và title art đã dùng trong web game. |
+| `showcase-source/smoke-shots/` | 29 | Ảnh chụp các bước smoke run, tham khảo trạng thái UI/gameplay. |
+| `showcase-source/docs/` | 5 | Hình minh họa/ảnh tham khảo cho proposal hình ảnh. |
+| `showcase-source/assets/share/` | 2 | Favicon và ảnh chia sẻ/OG của game nguồn. |
+
+## Danh sách đầy đủ
+
+Các đường dẫn dưới đây tương đối với thư mục gốc của bộ bàn giao:
+
+
+Tổng số ảnh raster sau khi đối chiếu file thực tế: **342**.
+
+### `assets/source/` — 214 ảnh
+
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/circle_02.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/circle_05.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/dirt_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/dirt_02.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/dirt_03.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/fire_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/flame_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/flare_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/light_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/light_03.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/magic_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/magic_03.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/magic_05.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/muzzle_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/Rotated/trace_01_rotated.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/scorch_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/scorch_03.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/scratch_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/slash_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/smoke_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/smoke_04.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/smoke_07.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/smoke_10.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/spark_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/spark_03.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/spark_05.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/spark_07.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/star_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/star_06.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/twirl_01.png`
+- `showcase-source/assets/source/kenney-particles/PNG (Transparent)/twirl_02.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/Black smoke/blackSmoke00.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/Black smoke/blackSmoke08.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/Black smoke/blackSmoke16.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff00.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff04.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff08.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff12.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff16.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff20.png`
+- `showcase-source/assets/source/kenney-smoke/PNG/White puff/whitePuff24.png`
+- `showcase-source/assets/source/polyhaven/beige_wall_001/beige_wall_001_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/beige_wall_001/beige_wall_001_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/beige_wall_001/beige_wall_001_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/blue_plaster_weathered/blue_plaster_weathered_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/blue_plaster_weathered/blue_plaster_weathered_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/blue_plaster_weathered/blue_plaster_weathered_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_cover_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_cover_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_cover_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_cover_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_cover_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_paper_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_paper_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_paper_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_paper_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/book_encyclopedia_set_01/book_encyclopedia_set_01_paper_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/caban/caban_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/caban/caban_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/caban/caban_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/caban/caban_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/caban/caban_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/checkered_pavement_tiles/checkered_pavement_tiles_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/checkered_pavement_tiles/checkered_pavement_tiles_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/checkered_pavement_tiles/checkered_pavement_tiles_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_alpha_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/chemistry_set/chemistry_set_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/cotton_jersey/cotton_jersey_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/cotton_jersey/cotton_jersey_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/cotton_jersey/cotton_jersey_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/cotton_jersey/cotton_jersey_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/cotton_jersey/cotton_jersey_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/crepe_satin/crepe_satin_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/crepe_satin/crepe_satin_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/crepe_satin/crepe_satin_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/crepe_satin/crepe_satin_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/crepe_satin/crepe_satin_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dark_wooden_planks/dark_wooden_planks_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dark_wooden_planks/dark_wooden_planks_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dark_wooden_planks/dark_wooden_planks_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dirty_football/dirty_football_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dirty_football/dirty_football_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dirty_football/dirty_football_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/dirty_football/dirty_football_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/drawer_cabinet/drawer_cabinet_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/drawer_cabinet/drawer_cabinet_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/drawer_cabinet/drawer_cabinet_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/drawer_cabinet/drawer_cabinet_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/drawer_cabinet/drawer_cabinet_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_canvas_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_canvas_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_canvas_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_02/floor_tiles_02_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_02/floor_tiles_02_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_02/floor_tiles_02_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_06/floor_tiles_06_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_06/floor_tiles_06_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/floor_tiles_06/floor_tiles_06_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/grey_plaster/grey_plaster_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/grey_plaster/grey_plaster_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/grey_plaster/grey_plaster_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_glass_alpha_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_glass_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_glass_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_glass_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_glass_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/industrial_wall_lamp/industrial_wall_lamp_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/laminate_floor/laminate_floor_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/laminate_floor/laminate_floor_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/laminate_floor/laminate_floor_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_bust_01/marble_bust_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_bust_01/marble_bust_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_bust_01/marble_bust_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_bust_01/marble_bust_01_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_tiles/marble_tiles_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_tiles/marble_tiles_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/marble_tiles/marble_tiles_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_stool_01/metal_stool_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_stool_01/metal_stool_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_stool_01/metal_stool_01_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_stool_01/metal_stool_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_stool_01/metal_stool_01_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rust_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rust_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rust_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rust_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/metal_trash_can/metal_trash_can_rust_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/old_wood_floor/old_wood_floor_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/old_wood_floor/old_wood_floor_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/old_wood_floor/old_wood_floor_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_plaster_wall/painted_plaster_wall_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_plaster_wall/painted_plaster_wall_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_plaster_wall/painted_plaster_wall_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_wooden_bench/painted_wooden_bench_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_wooden_bench/painted_wooden_bench_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_wooden_bench/painted_wooden_bench_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/painted_wooden_bench/painted_wooden_bench_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/plaster_stone_wall_01/plaster_stone_wall_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/plaster_stone_wall_01/plaster_stone_wall_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/plaster_stone_wall_01/plaster_stone_wall_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/rectangular_parquet/rectangular_parquet_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/rectangular_parquet/rectangular_parquet_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/rectangular_parquet/rectangular_parquet_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/red_plaster_weathered/red_plaster_weathered_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/red_plaster_weathered/red_plaster_weathered_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/red_plaster_weathered/red_plaster_weathered_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schoolchair_01/SchoolChair_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schoolchair_01/SchoolChair_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schoolchair_01/SchoolChair_01_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schoolchair_01/SchoolChair_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schoolchair_01/SchoolChair_01_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schooldesk_01/SchoolDesk_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schooldesk_01/SchoolDesk_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schooldesk_01/SchoolDesk_01_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schooldesk_01/SchoolDesk_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/schooldesk_01/SchoolDesk_01_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/shelf_01/Shelf_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/shelf_01/Shelf_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/shelf_01/Shelf_01_metallic_1k.jpg`
+- `showcase-source/assets/source/polyhaven/shelf_01/Shelf_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/shelf_01/Shelf_01_roughness_1k.jpg`
+- `showcase-source/assets/source/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_alpha_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_a_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_b_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_b_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_b_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/vintage_cabinet_01/vintage_cabinet_01_b_rough_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wood_floor_worn/wood_floor_worn_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wood_floor_worn/wood_floor_worn_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wood_floor_worn/wood_floor_worn_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wooden_display_shelves_01/wooden_display_shelves_01_arm_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wooden_display_shelves_01/wooden_display_shelves_01_diff_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wooden_display_shelves_01/wooden_display_shelves_01_metal_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wooden_display_shelves_01/wooden_display_shelves_01_nor_gl_1k.jpg`
+- `showcase-source/assets/source/polyhaven/wooden_display_shelves_01/wooden_display_shelves_01_rough_1k.jpg`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Eye_Brown.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Eye_Normal.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Female_Dark_BaseColor.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Female_Normal.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Female_Roughness.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Male_Dark.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Male_Normal.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Godot - UE/T_Superhero_Male_Roughness.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Textures/T_Superhero_Female_Light_BaseColor.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Base Characters/Textures/T_Superhero_Male_Ligh.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Hairstyles/Rigged to Head Bone/glTF (Godot -Unreal)/T_Hair_1_BaseColor.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Hairstyles/Rigged to Head Bone/glTF (Godot -Unreal)/T_Hair_1_Normal.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Hairstyles/Rigged to Head Bone/glTF (Godot -Unreal)/T_Hair_2_BaseColor.png`
+- `showcase-source/assets/source/quaternius-ubc/Universal Base Characters[Standard]/Hairstyles/Rigged to Head Bone/glTF (Godot -Unreal)/T_Hair_2_Normal.png`
+
+### `public/` — 92 ảnh
+
+- `showcase-source/public/fx/particles.webp`
+- `showcase-source/public/models/chars/blaze_albedo.webp`
+- `showcase-source/public/models/chars/blaze_emit.webp`
+- `showcase-source/public/models/chars/blaze_orm.webp`
+- `showcase-source/public/models/chars/bruiser_albedo.webp`
+- `showcase-source/public/models/chars/bruiser_orm.webp`
+- `showcase-source/public/models/chars/eye_albedo.webp`
+- `showcase-source/public/models/chars/female_normal.webp`
+- `showcase-source/public/models/chars/hair1_albedo.webp`
+- `showcase-source/public/models/chars/hair1_normal.webp`
+- `showcase-source/public/models/chars/hair2_albedo.webp`
+- `showcase-source/public/models/chars/hair2_normal.webp`
+- `showcase-source/public/models/chars/hero_albedo.webp`
+- `showcase-source/public/models/chars/hero_emit.webp`
+- `showcase-source/public/models/chars/hero_orm.webp`
+- `showcase-source/public/models/chars/librarian_albedo.webp`
+- `showcase-source/public/models/chars/librarian_emit.webp`
+- `showcase-source/public/models/chars/librarian_orm.webp`
+- `showcase-source/public/models/chars/male_normal.webp`
+- `showcase-source/public/models/chars/mira_albedo.webp`
+- `showcase-source/public/models/chars/mira_emit.webp`
+- `showcase-source/public/models/chars/mira_orm.webp`
+- `showcase-source/public/models/chars/pixel_albedo.webp`
+- `showcase-source/public/models/chars/pixel_emit.webp`
+- `showcase-source/public/models/chars/pixel_orm.webp`
+- `showcase-source/public/models/chars/proctor_albedo.webp`
+- `showcase-source/public/models/chars/proctor_emit.webp`
+- `showcase-source/public/models/chars/proctor_orm.webp`
+- `showcase-source/public/models/chars/rocky_albedo.webp`
+- `showcase-source/public/models/chars/rocky_emit.webp`
+- `showcase-source/public/models/chars/rocky_orm.webp`
+- `showcase-source/public/models/chars/shade_albedo.webp`
+- `showcase-source/public/models/chars/shade_emit.webp`
+- `showcase-source/public/models/chars/shade_orm.webp`
+- `showcase-source/public/models/chars/tock_albedo.webp`
+- `showcase-source/public/models/chars/tock_emit.webp`
+- `showcase-source/public/models/chars/tock_orm.webp`
+- `showcase-source/public/models/chars/zephyr_albedo.webp`
+- `showcase-source/public/models/chars/zephyr_emit.webp`
+- `showcase-source/public/models/chars/zephyr_orm.webp`
+- `showcase-source/public/tex/beige_wall_001_arm.webp`
+- `showcase-source/public/tex/beige_wall_001_diff.webp`
+- `showcase-source/public/tex/beige_wall_001_nor.webp`
+- `showcase-source/public/tex/blue_plaster_weathered_arm.webp`
+- `showcase-source/public/tex/blue_plaster_weathered_diff.webp`
+- `showcase-source/public/tex/blue_plaster_weathered_nor.webp`
+- `showcase-source/public/tex/caban_arm.webp`
+- `showcase-source/public/tex/caban_diff.webp`
+- `showcase-source/public/tex/caban_nor.webp`
+- `showcase-source/public/tex/checkered_pavement_tiles_arm.webp`
+- `showcase-source/public/tex/checkered_pavement_tiles_diff.webp`
+- `showcase-source/public/tex/checkered_pavement_tiles_nor.webp`
+- `showcase-source/public/tex/crepe_satin_arm.webp`
+- `showcase-source/public/tex/crepe_satin_diff.webp`
+- `showcase-source/public/tex/crepe_satin_nor.webp`
+- `showcase-source/public/tex/dark_wooden_planks_arm.webp`
+- `showcase-source/public/tex/dark_wooden_planks_diff.webp`
+- `showcase-source/public/tex/dark_wooden_planks_nor.webp`
+- `showcase-source/public/tex/floor_tiles_02_arm.webp`
+- `showcase-source/public/tex/floor_tiles_02_diff.webp`
+- `showcase-source/public/tex/floor_tiles_02_nor.webp`
+- `showcase-source/public/tex/floor_tiles_06_arm.webp`
+- `showcase-source/public/tex/floor_tiles_06_diff.webp`
+- `showcase-source/public/tex/floor_tiles_06_nor.webp`
+- `showcase-source/public/tex/grey_plaster_arm.webp`
+- `showcase-source/public/tex/grey_plaster_diff.webp`
+- `showcase-source/public/tex/grey_plaster_nor.webp`
+- `showcase-source/public/tex/laminate_floor_arm.webp`
+- `showcase-source/public/tex/laminate_floor_diff.webp`
+- `showcase-source/public/tex/laminate_floor_nor.webp`
+- `showcase-source/public/tex/marble_tiles_arm.webp`
+- `showcase-source/public/tex/marble_tiles_diff.webp`
+- `showcase-source/public/tex/marble_tiles_nor.webp`
+- `showcase-source/public/tex/old_wood_floor_arm.webp`
+- `showcase-source/public/tex/old_wood_floor_diff.webp`
+- `showcase-source/public/tex/old_wood_floor_nor.webp`
+- `showcase-source/public/tex/painted_plaster_wall_arm.webp`
+- `showcase-source/public/tex/painted_plaster_wall_diff.webp`
+- `showcase-source/public/tex/painted_plaster_wall_nor.webp`
+- `showcase-source/public/tex/plaster_stone_wall_01_arm.webp`
+- `showcase-source/public/tex/plaster_stone_wall_01_diff.webp`
+- `showcase-source/public/tex/plaster_stone_wall_01_nor.webp`
+- `showcase-source/public/tex/rectangular_parquet_arm.webp`
+- `showcase-source/public/tex/rectangular_parquet_diff.webp`
+- `showcase-source/public/tex/rectangular_parquet_nor.webp`
+- `showcase-source/public/tex/red_plaster_weathered_arm.webp`
+- `showcase-source/public/tex/red_plaster_weathered_diff.webp`
+- `showcase-source/public/tex/red_plaster_weathered_nor.webp`
+- `showcase-source/public/tex/wood_floor_worn_arm.webp`
+- `showcase-source/public/tex/wood_floor_worn_diff.webp`
+- `showcase-source/public/tex/wood_floor_worn_nor.webp`
+- `showcase-source/public/title/campus.webp`
+
+### `smoke-shots/` — 29 ảnh
+
+- `showcase-source/smoke-shots/01-title.png`
+- `showcase-source/smoke-shots/02-intro.png`
+- `showcase-source/smoke-shots/03-hub.png`
+- `showcase-source/smoke-shots/04-hub-walk.png`
+- `showcase-source/smoke-shots/05-board.png`
+- `showcase-source/smoke-shots/06-run-start.png`
+- `showcase-source/smoke-shots/06a-curtain.png`
+- `showcase-source/smoke-shots/07-combat.png`
+- `showcase-source/smoke-shots/08-combat-nova.png`
+- `showcase-source/smoke-shots/09-cleared.png`
+- `showcase-source/smoke-shots/10-upgrade.png`
+- `showcase-source/smoke-shots/11-map.png`
+- `showcase-source/smoke-shots/12-boss.png`
+- `showcase-source/smoke-shots/13-boss-attack.png`
+- `showcase-source/smoke-shots/14-boss-dead.png`
+- `showcase-source/smoke-shots/15-floor2-start.png`
+- `showcase-source/smoke-shots/16-floor2-combat.png`
+- `showcase-source/smoke-shots/17-librarian-intro.png`
+- `showcase-source/smoke-shots/18-librarian.png`
+- `showcase-source/smoke-shots/19-lib-shelves.png`
+- `showcase-source/smoke-shots/20-lib-storm.png`
+- `showcase-source/smoke-shots/21-lib-shush.png`
+- `showcase-source/smoke-shots/22-lib-phase3.png`
+- `showcase-source/smoke-shots/23-lib-phase3-attack.png`
+- `showcase-source/smoke-shots/24-lib-dead.png`
+- `showcase-source/smoke-shots/25-results.png`
+- `showcase-source/smoke-shots/26-back-hub.png`
+- `showcase-source/smoke-shots/27-death.png`
+- `showcase-source/smoke-shots/hero-navy-gold-cape.jpg`
+
+### `docs/` — 5 ảnh
+
+- `showcase-source/docs/visual-overhaul/before-combat.png`
+- `showcase-source/docs/visual-overhaul/before-librarian.png`
+- `showcase-source/docs/visual-overhaul/concept-cast-sheet.jpg`
+- `showcase-source/docs/visual-overhaul/concept-keyframe.jpg`
+- `showcase-source/docs/visual-overhaul/ref-base-characters.png`
+
+### `assets/share/` — 2 ảnh
+
+- `showcase-source/assets/share/favicon.png`
+- `showcase-source/assets/share/og.png`
+
+## Ảnh vector trong template
+
+- `runtime-starter/public/favicon.svg`

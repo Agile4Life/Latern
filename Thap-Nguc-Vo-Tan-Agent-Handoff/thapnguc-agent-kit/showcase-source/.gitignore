@@ -1,0 +1,6 @@
+node_modules/
+dist/
+shots/
+smoke-shots/
+assets/source/
+assets/build/
